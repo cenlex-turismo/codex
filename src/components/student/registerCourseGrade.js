@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function RegisterCourseGrade(props) {
 
-    const { email } = props;
+    const { idNumber } = props;
+
+    const [courses, setCourses] = useState([]);
+
+    const [teachers, setTeachers] = useState([]);
 
     const [courseForm, setCourseForm] = useState({
-        level: 0,
-        module: 0,
-        score: ""
+        course: "0",
+        courseStart: "2025-01-01",
+        courseEnd: "2025-01-01",
+        score: 0,
+        teacher: "0"
     });
 
     const updateFormField = (e) => {
@@ -22,17 +28,19 @@ function RegisterCourseGrade(props) {
 
     const registerCourseGrade = async (e) => {
         e.preventDefault();
-        if (email === null || !window.confirm("Registrar calificacion?")) {
+        if (idNumber === null || !window.confirm("Registrar calificacion?")) {
             return;
         }
 
         try {
-            await axios.put("http://localhost:3000/registerCourseGrade/" + email, courseForm);
+            await axios.put("http://localhost:3000/registerCourseGrade/" + idNumber, courseForm);
 
             setCourseForm({
-                level: 0,
-                module: 0,
-                score: ""
+                course: "0",
+                courseStart: "2025-01-01",
+                courseEnd: "2025-01-01",
+                score: 0,
+                teacher: "0"
             });
 
             window.alert("Calificacion registrada");
@@ -42,33 +50,44 @@ function RegisterCourseGrade(props) {
         }
     };
 
+    useEffect(() => {
+        fetch("http://148.204.11.20:3000/getAllCourses")
+            .then(response => response.json())
+            .then(data => setCourses(data.courses))
+            .catch(error => console.error("Error al obtener los cursos:", error));
+    }, []);
+
+    useEffect(() => {
+        fetch("http://148.204.11.20:3000/getAllTeachers")
+            .then(response => response.json())
+            .then(data => setTeachers(data.teachers))
+            .catch(error => console.error("Error al obtener a los maestros:", error));
+    }, []);
+
     return (
         <div className="RegisterCourseGrade">
             <div>
                 <h2>Registrar calificacion</h2>
                 <form onSubmit={registerCourseGrade}>
                     <div style={{ marginBottom: '10px' }}>
-                        <label>Nivel:
+                        <label>Curso:
                             <span style={{ marginRight: '10px' }} />
-                            <select value={courseForm.level} onChange={updateFormField} id="level" name="level">
-                                <option value={0} disabled>Selecciona un nivel</option>
-                                <option value={1}>Basico</option>
-                                <option value={2}>Intermedio</option>
-                                <option value={3}>Avanzado</option>
+                            <select value={courseForm.course} onChange={updateFormField} id="course" name="course">
+                                <option value={0} disabled>Selecciona un curso</option>
+                                {courses.map(course => (
+                                    <option key={course._id} value={course._id}>{course.language + " " + course.level + " " + course.module}</option>
+                                ))}
                             </select>
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
-                        <label>Modulo:
+                        <label>Maestro:
                             <span style={{ marginRight: '10px' }} />
-                            <select value={courseForm.module} onChange={updateFormField} id="module" name="module">
-                                <option value={0} disabled>Selecciona un modulo</option>
-                                <option value={1}>I</option>
-                                <option value={2}>II</option>
-                                <option value={3}>III</option>
-                                <option value={4}>IV</option>
-                                <option value={5}>V</option>
-                                <option value={6}>VI</option>
+                            <select value={courseForm.teacher} onChange={updateFormField} id="teacher" name="teacher">
+                                <option value={0} disabled>Selecciona un Maestro</option>
+                                {teachers.map(teacher => (
+                                    <option key={teacher._id} value={teacher._id}>{teacher.firstName + " " + teacher.lastName}</option>
+                                ))}
                             </select>
                         </label>
                     </div>
@@ -76,6 +95,18 @@ function RegisterCourseGrade(props) {
                         <label>Calificacion:
                             <span style={{ marginRight: '10px' }} />
                             <input value={courseForm.score} onChange={updateFormField} id="score" name="score" type="number" min={0} max={100} />
+                        </label>
+                    </div>
+                    <div style={{ marginBottom: '10px' }}>
+                        <label>Inicio del curso:
+                            <span style={{ marginRight: '10px' }} />
+                            <input value={courseForm.courseStart} onChange={updateFormField} id="courseStart" name="courseStart" type="date" min="2010-01-01" />
+                        </label>
+                    </div>
+                    <div style={{ marginBottom: '10px' }}>
+                        <label>Fin del curso:
+                            <span style={{ marginRight: '10px' }} />
+                            <input value={courseForm.courseEnd} onChange={updateFormField} id="courseEnd" name="courseEnd" type="date" min="2010-01-01" />
                         </label>
                     </div>
                     <input value="Registrar" type="submit" />

@@ -4,7 +4,7 @@ import RegisterCourseGrade from "./registerCourseGrade";
 
 function SearchStudent() {
     const [searchForm, setSearchForm] = useState({
-        email: ""
+        idNumber: ""
     });
 
     const [result, setResult] = useState({
@@ -26,7 +26,7 @@ function SearchStudent() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/getStudent/" + searchForm.email);
+            const res = await axios.get("http://localhost:3000/getStudent/" + searchForm.idNumber);
 
             setResult({
                 firstName: res.data.student.firstName,
@@ -55,9 +55,9 @@ function SearchStudent() {
                 <h2>Buscar Alumno</h2>
                 <form onSubmit={searchStudent}>
                     <div style={{ marginBottom: '10px' }}>
-                        <label>Email:
+                        <label>Boleta:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.email} onChange={updateFormField} name="email" type="email" />
+                            <input value={searchForm.idNumber} onChange={updateFormField} name="idNumber" type="Number" />
                         </label>
                     </div>
                     <input value="Buscar" type="submit" />
@@ -70,20 +70,20 @@ function SearchStudent() {
                 <ul>
                     {result.courseGrades
                         .sort((a, b) => {
-                            if (a.level !== b.level) {
-                                return a.level - b.level;
+                            if (a.course.level !== b.course.level) {
+                                return a.course.level - b.course.level;
                             }
-                            return a.module - b.module;
+                            return a.course.module - b.course.module;
                         })
                         .map((courseGrade, index) => (
                             <li key={index}>
-                                {levels[courseGrade.level - 1]} {modules[courseGrade.module - 1]}: {courseGrade.score}
+                                {levels[courseGrade.course.level - 1]} {modules[courseGrade.course.module - 1]}: {courseGrade.score} {courseGrade.courseStart} {courseGrade.courseEnd} {courseGrade.teacher.firstName} {courseGrade.teacher.lastName}
                             </li>
                         ))}
                 </ul>
             </div>
             <div>
-                <RegisterCourseGrade email={searchForm.email}></RegisterCourseGrade>
+                <RegisterCourseGrade idNumber={searchForm.idNumber}></RegisterCourseGrade>
             </div>
         </div>
     );

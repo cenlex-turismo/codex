@@ -5,7 +5,7 @@ function CreateStudent() {
     const [createForm, setCreateForm] = useState({
         firstName: "",
         lastName: "",
-        email: ""
+        idNumber: 0
     });
 
     const updateFormField = (e) => {
@@ -29,7 +29,7 @@ function CreateStudent() {
             setCreateForm({
                 firstName: "",
                 lastName: "",
-                email: ""
+                idNumber: 0
             });
 
             window.alert("Alumno registrado con exito");
@@ -57,9 +57,9 @@ function CreateStudent() {
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
-                        <label>Email:
+                        <label>Boleta:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" />
+                            <input value={createForm.idNumber} onChange={updateFormField} name="idNumber" type="number" />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
