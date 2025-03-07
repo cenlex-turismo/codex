@@ -64,6 +64,9 @@ function RegisterCourseGrade(props) {
             .catch(error => console.error("Error al obtener a los maestros:", error));
     }, []);
 
+    const levels = ["Basico", "Intermedio", "Avanzado"];
+    const modules = ["I", "II", "III", "IV", "V", "VI"];
+
     return (
         <div className="RegisterCourseGrade">
             <div>
@@ -75,7 +78,7 @@ function RegisterCourseGrade(props) {
                             <select value={courseForm.course} onChange={updateFormField} id="course" name="course">
                                 <option value={0} disabled>Selecciona un curso</option>
                                 {courses.map(course => (
-                                    <option key={course._id} value={course._id}>{course.language + " " + course.level + " " + course.module}</option>
+                                    <option key={course._id} value={course._id}>{course.language + " " + levels[course.level - 1] + " " + modules[course.module - 1]}</option>
                                 ))}
                             </select>
                         </label>
