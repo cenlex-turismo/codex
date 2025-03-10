@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import RegisterCourseGrade from "./registerCourseGrade";
+import { Link } from "react-router-dom";
 
 function SearchStudent() {
     const [searchForm, setSearchForm] = useState({
@@ -62,6 +63,9 @@ function SearchStudent() {
                     </div>
                     <input value="Buscar" type="submit" />
                 </form>
+            </div>
+            <div>
+                <Link to="/filterStudents">Busqueda Avanzada</Link>
             </div>
             <div>
                 <p>Nombre(s): {result.firstName}</p>
