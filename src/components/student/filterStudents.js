@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import RegisterCourseGrade from "./registerCourseGrade";
 
 function FilterStudents() {
     const [searchForm, setSearchForm] = useState({
@@ -21,11 +21,9 @@ function FilterStudents() {
 
     const [teachers, setTeachers] = useState([]);
 
-    const [result, setResult] = useState({
-        firstName: "",
-        lastName: "",
-        courseGrades: []
-    });
+    const [result, setResult] = useState([]);
+
+    const navigate = useNavigate();
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
@@ -44,24 +42,14 @@ function FilterStudents() {
                 params: searchForm
             });
 
-            console.log(res.data);
-
-            setResult({
-                firstName: res.data.student.firstName,
-                lastName: res.data.student.lastName,
-                courseGrades: res.data.student.courseGrades
-            });
+            setResult(res.data.students);
 
             window.alert("Alumno encontrado");
         }
         catch (err) {
             console.log(err);
 
-            setResult({
-                firstName: "",
-                lastName: "",
-                courseGrades: []
-            });
+            setResult([]);
             window.alert("Alumno no encontrado");
         }
     };
@@ -79,6 +67,11 @@ function FilterStudents() {
             .then(data => setTeachers(data.teachers))
             .catch(error => console.error("Error al obtener a los maestros:", error));
     }, []);
+
+    const handleOpenSearchPage = (idNumber) => {
+        console.log("Se ejecuto")
+        navigate(`/showStudent?idNumber=${idNumber}`);
+    };
 
     const levels = ["Basico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
@@ -183,26 +176,14 @@ function FilterStudents() {
                 </form>
             </div>
             <div>
-                <p>Nombre(s): {result.firstName}</p>
-                <p>Apellidos: {result.lastName}</p>
-                <p>Calificaciones</p>
-                <ul>
-                    {result.courseGrades
-                        .sort((a, b) => {
-                            if (a.course.level !== b.course.level) {
-                                return a.course.level - b.course.level;
-                            }
-                            return a.course.module - b.course.module;
-                        })
-                        .map((courseGrade, index) => (
-                            <li key={index}>
-                                {levels[courseGrade.course.level - 1]} {modules[courseGrade.course.module - 1]}: {courseGrade.score} {courseGrade.courseStart} {courseGrade.courseEnd} {courseGrade.teacher.firstName} {courseGrade.teacher.lastName}
-                            </li>
-                        ))}
-                </ul>
-            </div>
-            <div>
-                <RegisterCourseGrade idNumber={searchForm.idNumber}></RegisterCourseGrade>
+                {result.map(student => (
+                    <>
+                        <p key={student._id + "1"}>Boleta: {student.idNumber}</p>
+                        <p key={student._id + "2"}>Nombre(s): {student.firstName}</p>
+                        <p key={student._id + "3"}>Apellidos: {student.lastName}</p>
+                        <button onClick={() => handleOpenSearchPage(student.idNumber)}>Ver perfil del alumno</button>
+                    </>
+                ))}
             </div>
         </div>
     );
