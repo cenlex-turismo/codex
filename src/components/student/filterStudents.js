@@ -79,7 +79,7 @@ function FilterStudents() {
     return (
         <div className="SearchStudent">
             <div>
-                <h2>Buscar Alumno - Avanzada</h2>
+                <h2>Busqueda Avanzada</h2>
                 <form onSubmit={searchStudent}>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Boleta:

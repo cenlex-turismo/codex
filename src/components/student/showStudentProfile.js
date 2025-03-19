@@ -39,6 +39,11 @@ function ShowStudent() {
         }
     }, [searchParams]); // Run whenever query params change
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return `${date.getUTCDate().toString().padStart(2, "0")}-${(date.getUTCMonth() + 1).toString().padStart(2, "0")}-${date.getUTCFullYear()}`;
+    }
+
     const levels = ["Basico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
@@ -48,21 +53,39 @@ function ShowStudent() {
                 <p>Boleta: {result.idNumber}</p>
                 <p>Nombre(s): {result.firstName}</p>
                 <p>Apellidos: {result.lastName}</p>
-                <p>Calificaciones</p>
-                <ul>
-                    {result.courseGrades
-                        .sort((a, b) => {
-                            if (a.course.level !== b.course.level) {
-                                return a.course.level - b.course.level;
-                            }
-                            return a.course.module - b.course.module;
-                        })
-                        .map((courseGrade, index) => (
-                            <li key={index}>
-                                {levels[courseGrade.course.level - 1]} {modules[courseGrade.course.module - 1]}: {courseGrade.score} {courseGrade.courseStart} {courseGrade.courseEnd} {courseGrade.teacher.firstName} {courseGrade.teacher.lastName}
-                            </li>
-                        ))}
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Idioma</th>
+                            <th>Nivel</th>
+                            <th>Modulo</th>
+                            <th>Calificacion</th>
+                            <th>Fecha de inicio del curso</th>
+                            <th>Fecha de termino del curso</th>
+                            <th>Maestro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.courseGrades
+                            .sort((a, b) => {
+                                if (a.course.level !== b.course.level) {
+                                    return a.course.level - b.course.level;
+                                }
+                                return a.course.module - b.course.module;
+                            })
+                            .map((courseGrade, index) => (
+                                <tr key={index}>
+                                    <td>{courseGrade.course.language}</td>
+                                    <td>{levels[courseGrade.course.level - 1]}</td>
+                                    <td>{modules[courseGrade.course.module - 1]}</td>
+                                    <td>{courseGrade.score}</td>
+                                    <td>{formatDate(courseGrade.courseStart)}</td>
+                                    <td>{formatDate(courseGrade.courseEnd)}</td>
+                                    <td>{courseGrade.teacher.firstName} {courseGrade.teacher.lastName}</td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

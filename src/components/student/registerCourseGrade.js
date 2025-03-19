@@ -9,13 +9,16 @@ function RegisterCourseGrade(props) {
 
     const [teachers, setTeachers] = useState([]);
 
-    const [courseForm, setCourseForm] = useState({
-        course: "0",
-        courseStart: "2025-01-01",
-        courseEnd: "2025-01-01",
-        score: 0,
-        teacher: "0"
-    });
+    const [courseForm, setCourseForm] = useState(() => {
+        const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+        return {
+          course: "0",
+          courseStart: today,
+          courseEnd: today,
+          score: 0,
+          teacher: "0"
+        };
+      });
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
