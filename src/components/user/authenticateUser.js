@@ -25,24 +25,21 @@ function AuthenticateUser() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/authenticateUser/", {
-                params: searchForm
-            });
+            const res = await axios.post("http://localhost:3000/authenticateUser/", searchForm);
 
             setResult({
                 firstName: res.data.user.firstName,
                 lastName: res.data.user.lastName,
             });
 
-            window.alert("Alumno encontrado");
+            window.alert("Usuario encontrado");
         }
         catch (err) {
             setResult({
                 firstName: "",
                 lastName: "",
-                courseGrades: []
             });
-            window.alert("Alumno no encontrado");
+            window.alert("Usuario no encontrado");
         }
     };
 
