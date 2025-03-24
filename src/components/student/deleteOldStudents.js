@@ -1,5 +1,8 @@
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function DeleteOldStudents() {
 
     const deleteOldStudents = async (e) => {
@@ -10,7 +13,7 @@ function DeleteOldStudents() {
         }
 
         try {
-            await axios.delete("http://localhost:3000/maintenance");
+            await axios.delete("http://localhost:3000/student/maintenance");
             window.alert("Eliminacion exitosa");
         }
         catch (err) {

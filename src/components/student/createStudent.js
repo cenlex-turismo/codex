@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function CreateStudent() {
     const [createForm, setCreateForm] = useState({
         firstName: "",
@@ -29,7 +32,7 @@ function CreateStudent() {
         }
 
         try {
-            await axios.post("http://localhost:3000/createStudent", createForm);
+            await axios.post("http://localhost:3000/student/createStudent", createForm);
 
             setCreateForm({
                 firstName: "",

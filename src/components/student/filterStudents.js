@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function FilterStudents() {
     const [searchForm, setSearchForm] = useState({
         idNumber: "",
@@ -38,7 +41,7 @@ function FilterStudents() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/filterStudents/", {
+            const res = await axios.get("http://localhost:3000/student/filterStudents/", {
                 params: searchForm
             });
 

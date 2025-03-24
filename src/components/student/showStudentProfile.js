@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function ShowStudent() {
     const [searchParams] = useSearchParams(); // Hook to access query parameters
     const [result, setResult] = useState({
@@ -13,7 +16,7 @@ function ShowStudent() {
 
     const searchStudent = async (idNumber) => {
         try {
-            const res = await axios.get(`http://localhost:3000/getStudent/${idNumber}`);
+            const res = await axios.get(`http://localhost:3000/student/getStudent/${idNumber}`);
             setResult({
                 idNumber: res.data.student.idNumber,
                 firstName: res.data.student.firstName,

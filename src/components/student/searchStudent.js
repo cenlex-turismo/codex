@@ -3,6 +3,9 @@ import axios from "axios";
 import RegisterCourseGrade from "./registerCourseGrade";
 import { Link } from "react-router-dom";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function SearchStudent() {
     const [searchForm, setSearchForm] = useState({
         idNumber: ""
@@ -27,7 +30,7 @@ function SearchStudent() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/getStudent/" + searchForm.idNumber);
+            const res = await axios.get("http://localhost:3000/student/getStudent/" + searchForm.idNumber);
 
             setResult({
                 firstName: res.data.student.firstName,

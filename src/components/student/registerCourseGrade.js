@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function RegisterCourseGrade(props) {
 
     const { idNumber } = props;
@@ -36,7 +39,7 @@ function RegisterCourseGrade(props) {
         }
 
         try {
-            await axios.put("http://localhost:3000/registerCourseGrade/" + idNumber, courseForm);
+            await axios.put("http://localhost:3000/student/registerCourseGrade/" + idNumber, courseForm);
 
             setCourseForm({
                 course: "0",
