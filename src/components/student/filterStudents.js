@@ -72,7 +72,6 @@ function FilterStudents() {
     }, []);
 
     const handleOpenSearchPage = (idNumber) => {
-        console.log("Se ejecuto")
         navigate(`/showStudent?idNumber=${idNumber}`);
     };
 

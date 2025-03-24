@@ -1,18 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function AuthenticateUser() {
+
+    const navigate = useNavigate();
+
     const [searchForm, setSearchForm] = useState({
         email: "",
         password: ""
-    });
-
-    const [result, setResult] = useState({
-        firstName: "",
-        lastName: "",
     });
 
     const updateFormField = (e) => {
@@ -30,19 +29,12 @@ function AuthenticateUser() {
         try {
             const res = await axios.post("/user/authenticateUser/", searchForm);
 
-            setResult({
-                firstName: res.data.user.firstName,
-                lastName: res.data.user.lastName,
-            });
+            window.alert("Bienvenid@ " + res.data.user.firstName + " " + res.data.user.lastName)
 
-            window.alert("Usuario encontrado");
+            navigate("/");
         }
         catch (err) {
-            setResult({
-                firstName: "",
-                lastName: "",
-            });
-            window.alert("Usuario no encontrado");
+            window.alert("Contraseña o correo invalidos");
         }
     };
 
@@ -65,10 +57,6 @@ function AuthenticateUser() {
                     </div>
                     <input value="Buscar" type="submit" />
                 </form>
-            </div>
-            <div>
-                <p>Nombre(s): {result.firstName}</p>
-                <p>Apellidos: {result.lastName}</p>
             </div>
         </div>
     );
