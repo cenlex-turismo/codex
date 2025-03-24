@@ -30,7 +30,7 @@ function SearchStudent() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/student/getStudent/" + searchForm.idNumber);
+            const res = await axios.get("/student/getStudent/" + searchForm.idNumber);
 
             setResult({
                 firstName: res.data.student.firstName,

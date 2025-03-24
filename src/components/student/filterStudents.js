@@ -41,7 +41,7 @@ function FilterStudents() {
         e.preventDefault();
 
         try {
-            const res = await axios.get("http://localhost:3000/student/filterStudents/", {
+            const res = await axios.get("/student/filterStudents/", {
                 params: searchForm
             });
 
@@ -58,14 +58,14 @@ function FilterStudents() {
     };
 
     useEffect(() => {
-        fetch("http://148.204.11.20:3000/getAllCourses")
+        fetch("http://localhost:3000/course/getAllCourses", { credentials: "include" })
             .then(response => response.json())
             .then(data => setCourses(data.courses))
             .catch(error => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
-        fetch("http://148.204.11.20:3000/getAllTeachers")
+        fetch("http://localhost:3000/teacher/getAllTeachers", { credentials: "include" })
             .then(response => response.json())
             .then(data => setTeachers(data.teachers))
             .catch(error => console.error("Error al obtener a los maestros:", error));

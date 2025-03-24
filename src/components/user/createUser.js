@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function CreateUser() {
     const [createForm, setCreateForm] = useState({
         email: "",
@@ -25,7 +28,7 @@ function CreateUser() {
         }
 
         try {
-            await axios.post("http://localhost:3000/createUser", createForm);
+            await axios.post("/user/createUser", createForm);
 
             setCreateForm({
                 email: "",

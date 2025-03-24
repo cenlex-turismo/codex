@@ -13,7 +13,7 @@ function DeleteOldStudents() {
         }
 
         try {
-            await axios.delete("http://localhost:3000/student/maintenance");
+            await axios.delete("/student/maintenance");
             window.alert("Eliminacion exitosa");
         }
         catch (err) {

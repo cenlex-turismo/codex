@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://148.204.11.20:3000"; // Backend URL
+axios.defaults.withCredentials = true; // Send cookies with requests
+
 function CreateCourse() {
     const [createForm, setCreateForm] = useState({
         language: "",
@@ -24,7 +27,7 @@ function CreateCourse() {
         }
 
         try {
-            await axios.post("http://localhost:3000/createCourse", createForm);
+            await axios.post("/course/createCourse", createForm);
 
             setCreateForm({
                 language: "",

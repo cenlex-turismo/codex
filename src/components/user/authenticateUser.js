@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import CreateStudent from "../student/createStudent";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -29,7 +28,7 @@ function AuthenticateUser() {
         e.preventDefault();
 
         try {
-            const res = await axios.post("http://localhost:3000/authenticateUser/", searchForm);
+            const res = await axios.post("/user/authenticateUser/", searchForm);
 
             setResult({
                 firstName: res.data.user.firstName,
@@ -71,7 +70,6 @@ function AuthenticateUser() {
                 <p>Nombre(s): {result.firstName}</p>
                 <p>Apellidos: {result.lastName}</p>
             </div>
-            <CreateStudent></CreateStudent>
         </div>
     );
 }

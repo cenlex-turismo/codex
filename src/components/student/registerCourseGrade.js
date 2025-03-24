@@ -15,13 +15,13 @@ function RegisterCourseGrade(props) {
     const [courseForm, setCourseForm] = useState(() => {
         const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
         return {
-          course: "0",
-          courseStart: today,
-          courseEnd: today,
-          score: 0,
-          teacher: "0"
+            course: "0",
+            courseStart: today,
+            courseEnd: today,
+            score: 0,
+            teacher: "0"
         };
-      });
+    });
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
@@ -39,7 +39,7 @@ function RegisterCourseGrade(props) {
         }
 
         try {
-            await axios.put("http://localhost:3000/student/registerCourseGrade/" + idNumber, courseForm);
+            await axios.put("/student/registerCourseGrade/" + idNumber, courseForm);
 
             setCourseForm({
                 course: "0",
@@ -57,14 +57,14 @@ function RegisterCourseGrade(props) {
     };
 
     useEffect(() => {
-        fetch("http://148.204.11.20:3000/getAllCourses")
+        fetch("http://localhost:3000/course/getAllCourses", { credentials: "include" })
             .then(response => response.json())
             .then(data => setCourses(data.courses))
             .catch(error => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
-        fetch("http://148.204.11.20:3000/getAllTeachers")
+        fetch("http://localhost:3000/teacher/getAllTeachers", { credentials: "include" })
             .then(response => response.json())
             .then(data => setTeachers(data.teachers))
             .catch(error => console.error("Error al obtener a los maestros:", error));

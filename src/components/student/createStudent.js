@@ -32,7 +32,7 @@ function CreateStudent() {
         }
 
         try {
-            await axios.post("http://localhost:3000/student/createStudent", createForm);
+            await axios.post("/student/createStudent", createForm);
 
             setCreateForm({
                 firstName: "",

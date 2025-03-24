@@ -16,7 +16,7 @@ function ShowStudent() {
 
     const searchStudent = async (idNumber) => {
         try {
-            const res = await axios.get(`http://localhost:3000/student/getStudent/${idNumber}`);
+            const res = await axios.get(`/student/getStudent/${idNumber}`);
             setResult({
                 idNumber: res.data.student.idNumber,
                 firstName: res.data.student.firstName,
