@@ -31,7 +31,7 @@ function AuthenticateUser() {
 
             window.alert("Bienvenid@ " + res.data.user.firstName + " " + res.data.user.lastName)
 
-            navigate("/");
+            navigate("/dashboard");
         }
         catch (err) {
             window.alert("Contraseña o correo invalidos");

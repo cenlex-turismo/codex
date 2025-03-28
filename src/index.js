@@ -13,13 +13,14 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App />} />
+                <Route path="/" element={<AuthenticateUser />} />
+                <Route path="login" element={<AuthenticateUser />} />
+                <Route path="dashboard" element={<App />} />
                 <Route path="filterStudents" element={<FilterStudents />} />
                 <Route path="showStudent" element={<ShowStudent />} />
                 <Route path="createTeacher" element={<CreateTeacher />} />
                 <Route path="createCourse" element={<CreateCourse />} />
                 <Route path="createUser" element={<CreateUser />} />
-                <Route path="login" element={<AuthenticateUser />} />
             </Routes>
         </BrowserRouter>
     );
