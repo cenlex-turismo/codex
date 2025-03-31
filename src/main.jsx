@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from './components/App';
 import FilterStudents from './components/student/filterStudents';
 import ShowStudent from './components/student/showStudentProfile';
@@ -7,9 +8,9 @@ import CreateTeacher from './components/teacher/createTeacher';
 import CreateCourse from './components/courses/createCourse';
 import CreateUser from './components/user/createUser';
 import AuthenticateUser from './components/user/authenticateUser';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function Router() {
+// Router Component
+function Router() {
     return (
         <BrowserRouter>
             <Routes>
@@ -26,7 +27,10 @@ export default function Router() {
     );
 }
 
+// Ensure React 18 Rendering Works
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Router />
+    <React.StrictMode>
+        <Router />
+    </React.StrictMode>
 );
