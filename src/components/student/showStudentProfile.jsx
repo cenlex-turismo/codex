@@ -47,6 +47,25 @@ function ShowStudent() {
         return `${date.getUTCDate().toString().padStart(2, "0")}-${(date.getUTCMonth() + 1).toString().padStart(2, "0")}-${date.getUTCFullYear()}`;
     }
 
+    const handleDownload = async () => {
+        try {
+            const response = await axios.get("/student/generateTranscript", {
+                responseType: "blob", // Important: Treat response as a binary file
+            });
+    
+            // Create a Blob URL and trigger the download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "generated.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error) {
+            console.error("Error downloading PDF:", error);
+        }
+    };
+
     const levels = ["Basico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
@@ -66,6 +85,7 @@ function ShowStudent() {
                             <th>Fecha de inicio del curso</th>
                             <th>Fecha de termino del curso</th>
                             <th>Maestro</th>
+                            <th>Descargar Historial</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +105,7 @@ function ShowStudent() {
                                     <td>{formatDate(courseGrade.courseStart)}</td>
                                     <td>{formatDate(courseGrade.courseEnd)}</td>
                                     <td>{courseGrade.teacher.firstName} {courseGrade.teacher.lastName}</td>
+                                    <td><button onClick={() => handleDownload()}>Descargar</button></td>
                                 </tr>
                             ))}
                     </tbody>
