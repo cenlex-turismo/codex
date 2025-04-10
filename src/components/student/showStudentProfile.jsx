@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -13,6 +14,8 @@ function ShowStudent() {
         lastName: "",
         courseGrades: []
     });
+
+    const [openModalResult, setOpenModalResult] = useState(false);
 
     const searchStudent = async (idNumber) => {
         try {
@@ -30,7 +33,7 @@ function ShowStudent() {
                 lastName: "",
                 courseGrades: []
             });
-            window.alert("Alumno no encontrado");
+            setOpenModalResult(true);
         }
     };
 
@@ -52,7 +55,7 @@ function ShowStudent() {
             const response = await axios.get("/student/generateTranscript", {
                 responseType: "blob", // Important: Treat response as a binary file
             });
-    
+
             // Create a Blob URL and trigger the download
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const a = document.createElement("a");
@@ -111,6 +114,19 @@ function ShowStudent() {
                     </tbody>
                 </table>
             </div>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult(false)}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            El alumno no existe
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => setOpenModalResult(false)}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

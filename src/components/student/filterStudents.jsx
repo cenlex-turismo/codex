@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -26,6 +28,11 @@ function FilterStudents() {
 
     const [result, setResult] = useState([]);
 
+    const [openModalResult, setOpenModalResult] = useState({
+        show: false,
+        message: ""
+    });
+
     const navigate = useNavigate();
 
     const updateFormField = (e) => {
@@ -47,13 +54,19 @@ function FilterStudents() {
 
             setResult(res.data.students);
 
-            window.alert("Alumno encontrado");
+            setOpenModalResult({
+                show: true,
+                message: "Alumnos encontrados"
+            });
         }
         catch (err) {
             console.log(err);
 
             setResult([]);
-            window.alert("Alumno no encontrado");
+            setOpenModalResult({
+                show: true,
+                message: "Error al buscar alumnos"
+            });
         }
     };
 
@@ -187,6 +200,30 @@ function FilterStudents() {
                     </>
                 ))}
             </div>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
+                ...setOpenModalResult,
+                show: false
+            })}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {openModalResult.message === "Alumnos encontrados" ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {openModalResult.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => setOpenModalResult({
+                        ...setOpenModalResult,
+                        show: false
+                    })}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

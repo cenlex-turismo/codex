@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -23,6 +25,12 @@ function RegisterCourseGrade(props) {
         };
     });
 
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalResult, setOpenModalResult] = useState({
+        show: false,
+        message: ""
+    });
+
     const updateFormField = (e) => {
         const { name, value } = e.target;
 
@@ -32,9 +40,8 @@ function RegisterCourseGrade(props) {
         });
     };
 
-    const registerCourseGrade = async (e) => {
-        e.preventDefault();
-        if (idNumber === null || !window.confirm("Registrar calificacion?")) {
+    const registerCourseGrade = async () => {
+        if (idNumber === null) {
             return;
         }
 
@@ -49,11 +56,22 @@ function RegisterCourseGrade(props) {
                 teacher: "0"
             });
 
-            window.alert("Calificacion registrada");
+            setOpenModalResult({
+                show: true,
+                message: "Calificación registrada con éxito"
+            });
         }
         catch (err) {
-            window.alert("Error al registrar calificacion");
+            setOpenModalResult({
+                show: true,
+                message: "Error al registrar calificación"
+            });
         }
+    };
+
+    const showModal = async (e) => {
+        e.preventDefault();
+        setOpenModal(true);
     };
 
     useEffect(() => {
@@ -77,7 +95,7 @@ function RegisterCourseGrade(props) {
         <div className="RegisterCourseGrade">
             <div>
                 <h2>Registrar calificacion</h2>
-                <form onSubmit={registerCourseGrade}>
+                <form onSubmit={showModal}>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Curso:
                             <span style={{ marginRight: '10px' }} />
@@ -121,6 +139,52 @@ function RegisterCourseGrade(props) {
                     <input value="Registrar" type="submit" />
                 </form>
             </div>
+            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center">
+                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            ¿Seguro de registrar la calificación?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            <Button color="failure" onClick={() => {
+                                setOpenModal(false);
+                                registerCourseGrade();
+                            }}>
+                                {"Si, registrar"}
+                            </Button>
+                            <Button color="gray" onClick={() => setOpenModal(false)}>
+                                No, cancelar
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
+                ...setOpenModalResult,
+                show: false
+            })}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {openModalResult.message === "Calificación registrada con éxito" ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {openModalResult.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => setOpenModalResult({
+                        ...setOpenModalResult,
+                        show: false
+                    })}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

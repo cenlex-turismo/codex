@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
 import App from "./components/App";
 import FilterStudents from "./components/student/filterStudents";
 import ShowStudent from "./components/student/showStudentProfile";
@@ -13,9 +12,6 @@ import CreateStudent from "./components/student/createStudent";
 import MainLayout from "./components/layouts/mainLayout";
 import ProtectedRoute from "./components/protectedRoute";
 import RedirectBasedOnAuth from "./components/redirectBasedOnAuth ";
-
-axios.defaults.baseURL = "http://localhost:3000"; // Backend base URL
-axios.defaults.withCredentials = true; // Include cookies in requests
 
 // Router Component
 function Router() {

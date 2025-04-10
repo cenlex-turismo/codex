@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import RegisterCourseGrade from "./registerCourseGrade";
 import { Link } from "react-router-dom";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -15,6 +17,11 @@ function SearchStudent() {
         firstName: "",
         lastName: "",
         courseGrades: []
+    });
+
+    const [openModalResult, setOpenModalResult] = useState({
+        show: false,
+        message: ""
     });
 
     const updateFormField = (e) => {
@@ -38,7 +45,10 @@ function SearchStudent() {
                 courseGrades: res.data.student.courseGrades
             });
 
-            window.alert("Alumno encontrado");
+            setOpenModalResult({
+                show: true,
+                message: "Alumno encontrado"
+            });
         }
         catch (err) {
             setResult({
@@ -46,7 +56,10 @@ function SearchStudent() {
                 lastName: "",
                 courseGrades: []
             });
-            window.alert("Alumno no encontrado");
+            setOpenModalResult({
+                show: true,
+                message: "Alumno no encontrado"
+            });
         }
     };
 
@@ -115,6 +128,30 @@ function SearchStudent() {
             <div>
                 <RegisterCourseGrade idNumber={searchForm.idNumber}></RegisterCourseGrade>
             </div>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
+                ...setOpenModalResult,
+                show: false
+            })}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {openModalResult.message === "Alumno encontrado" ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {openModalResult.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => setOpenModalResult({
+                        ...setOpenModalResult,
+                        show: false
+                    })}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }
