@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
 
-axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function ShowStudent() {

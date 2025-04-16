@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
-axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function RegisterCourseGrade(props) {
@@ -75,14 +75,14 @@ function RegisterCourseGrade(props) {
     };
 
     useEffect(() => {
-        fetch("http://localhost:3000/course/getAllCourses", { credentials: "include" })
+        fetch("https://api.celexest.com/course/getAllCourses", { credentials: "include" })
             .then(response => response.json())
             .then(data => setCourses(data.courses))
             .catch(error => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:3000/teacher/getAllTeachers", { credentials: "include" })
+        fetch("https://api.celexest.com/teacher/getAllTeachers", { credentials: "include" })
             .then(response => response.json())
             .then(data => setTeachers(data.teachers))
             .catch(error => console.error("Error al obtener a los maestros:", error));

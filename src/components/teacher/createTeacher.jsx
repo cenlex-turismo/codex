@@ -1,13 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
-axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function CreateTeacher() {
     const [createForm, setCreateForm] = useState({
         firstName: "",
         lastName: "",
+    });
+
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalResult, setOpenModalResult] = useState({
+        show: false,
+        message: ""
     });
 
     const updateFormField = (e) => {
@@ -19,12 +27,12 @@ function CreateTeacher() {
         });
     };
 
-    const registerTeacher = async (e) => {
+    const showModal = async (e) => {
         e.preventDefault();
-        if (!window.confirm("Registrar maestro?")) {
-            return;
-        }
+        setOpenModal(true);
+    };
 
+    const registerTeacher = async () => {
         try {
             await axios.post("/teacher/createTeacher", createForm);
 
@@ -33,10 +41,16 @@ function CreateTeacher() {
                 lastName: ""
             });
 
-            window.alert("Maestro registrado con exito");
+            setOpenModalResult({
+                show: true,
+                message: "Maestro registrado con éxito"
+            });
         }
         catch (err) {
-            window.alert("Error al registrar al maestro");
+            setOpenModalResult({
+                show: true,
+                message: "Error al registrar al maestro"
+            });
         }
     };
 
@@ -44,7 +58,7 @@ function CreateTeacher() {
         <div className="CreateTeacher">
             <div>
                 <h2>Registrar Maestro</h2>
-                <form onSubmit={registerTeacher}>
+                <form onSubmit={showModal}>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Nombre(s):
                             <span style={{ marginRight: '10px' }} />
@@ -62,6 +76,52 @@ function CreateTeacher() {
                     </div>
                 </form>
             </div>
+            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center">
+                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            ¿Seguro de registrar al Maestro?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            <Button color="failure" onClick={() => {
+                                setOpenModal(false);
+                                registerTeacher();
+                            }}>
+                                {"Si, registrar"}
+                            </Button>
+                            <Button color="gray" onClick={() => setOpenModal(false)}>
+                                No, cancelar
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
+                ...setOpenModalResult,
+                show: false
+            })}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {openModalResult.message === "Maestro registrado con éxito" ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {openModalResult.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => setOpenModalResult({
+                        ...setOpenModalResult,
+                        show: false
+                    })}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

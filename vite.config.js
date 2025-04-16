@@ -9,6 +9,7 @@ export default defineConfig({
         postcss: './postcss.config.js',
     },
     server: {
-        port: 3001
+        port: 3001,
+        allowedHosts: ["codex.celexest.com"]
     }
 });

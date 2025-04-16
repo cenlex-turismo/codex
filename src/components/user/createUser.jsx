@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function CreateUser() {

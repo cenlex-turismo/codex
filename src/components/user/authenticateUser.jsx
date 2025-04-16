@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
-axios.defaults.baseURL = "http://localhost:3000"; // Backend URL
+axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function AuthenticateUser() {
@@ -12,6 +14,11 @@ function AuthenticateUser() {
     const [searchForm, setSearchForm] = useState({
         email: "",
         password: ""
+    });
+
+    const [openModalResult, setOpenModalResult] = useState({
+        show: false,
+        message: ""
     });
 
     const updateFormField = (e) => {
@@ -29,12 +36,16 @@ function AuthenticateUser() {
         try {
             const res = await axios.post("/user/authenticateUser/", searchForm);
 
-            window.alert("Bienvenid@ " + res.data.user.firstName + " " + res.data.user.lastName)
-
-            navigate("/dashboard");
+            setOpenModalResult({
+                show: true,
+                message: "Bienvenid@ " + res.data.user.firstName + " " + res.data.user.lastName
+            });
         }
         catch (err) {
-            window.alert("Contraseña o correo invalidos");
+            setOpenModalResult({
+                show: true,
+                message: "Contraseña o correo invalidos"
+            });
         }
     };
 
@@ -58,6 +69,33 @@ function AuthenticateUser() {
                     <input value="Buscar" type="submit" />
                 </form>
             </div>
+            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
+                ...setOpenModalResult,
+                show: false
+            })}>
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {openModalResult.message !== "Contraseña o correo invalidos" ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {openModalResult.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button onClick={() => {
+                        setOpenModalResult({
+                            ...setOpenModalResult,
+                            show: false
+                        });
+                        navigate("/dashboard");
+                    }}>Aceptar</Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }
