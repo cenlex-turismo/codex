@@ -10,6 +10,8 @@ function CreateStudent() {
     const [createForm, setCreateForm] = useState({
         firstName: "",
         lastName: "",
+        email: "",
+        password: "",
         idNumber: 0,
         studentType: 0
     });
@@ -40,6 +42,8 @@ function CreateStudent() {
             setCreateForm({
                 firstName: "",
                 lastName: "",
+                email: "",
+                password: "",
                 idNumber: 0,
                 studentType: 0
             });
@@ -77,6 +81,18 @@ function CreateStudent() {
                         <label>Apellidos:
                             <span style={{ marginRight: '10px' }} />
                             <input value={createForm.lastName} onChange={updateFormField} name="lastName" type="text" />
+                        </label>
+                    </div>
+                    <div style={{ marginBottom: '10px' }}>
+                        <label>Email:
+                            <span style={{ marginRight: '10px' }} />
+                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" />
+                        </label>
+                    </div>
+                    <div style={{ marginBottom: '10px' }}>
+                        <label>Contraseña:
+                            <span style={{ marginRight: '10px' }} />
+                            <input value={createForm.password} onChange={updateFormField} name="password" type="password" />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>

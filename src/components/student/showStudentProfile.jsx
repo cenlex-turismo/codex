@@ -21,10 +21,10 @@ function ShowStudent() {
         try {
             const res = await axios.get(`/student/getStudent/${idNumber}`);
             setResult({
-                idNumber: res.data.student.idNumber,
+                idNumber: res.data.student.studentDetails.idNumber,
                 firstName: res.data.student.firstName,
                 lastName: res.data.student.lastName,
-                courseGrades: res.data.student.courseGrades
+                courseGrades: res.data.student.studentDetails.courseGrades
             });
         } catch (err) {
             setResult({

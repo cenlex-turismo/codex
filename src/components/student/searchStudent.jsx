@@ -42,7 +42,7 @@ function SearchStudent() {
             setResult({
                 firstName: res.data.student.firstName,
                 lastName: res.data.student.lastName,
-                courseGrades: res.data.student.courseGrades
+                courseGrades: res.data.student.studentDetails.courseGrades
             });
 
             setOpenModalResult({

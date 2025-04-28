@@ -193,10 +193,10 @@ function FilterStudents() {
             <div>
                 {result.map(student => (
                     <>
-                        <p key={student._id + "1"}>Boleta: {student.idNumber}</p>
+                        <p key={student._id + "1"}>Boleta: {student.studentDetails.idNumber}</p>
                         <p key={student._id + "2"}>Nombre(s): {student.firstName}</p>
                         <p key={student._id + "3"}>Apellidos: {student.lastName}</p>
-                        <button onClick={() => handleOpenSearchPage(student.idNumber)}>Ver perfil del alumno</button>
+                        <button onClick={() => handleOpenSearchPage(student.studentDetails.idNumber)}>Ver perfil del alumno</button>
                     </>
                 ))}
             </div>
