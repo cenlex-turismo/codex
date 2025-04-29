@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
-function NavigationBar() {
+function TeacherNavigationBar({ user }) {
 
     const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ function NavigationBar() {
                     <Dropdown
                         arrowIcon={true}
                         inline
-                        label="Usuario"
+                        label={user.firstName + " " + user.lastName}
                     >
                         <DropdownItem onClick={logout}>Cerrar Sesion</DropdownItem>
                     </Dropdown>
@@ -71,4 +71,4 @@ function NavigationBar() {
     );
 }
 
-export default NavigationBar;
+export default TeacherNavigationBar;

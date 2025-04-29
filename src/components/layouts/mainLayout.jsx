@@ -1,11 +1,30 @@
 import React from "react";
-import NavigationBar from "../navigationBar";
+import AdminNavigationBar from "../navbars/adminNavigationBar";
+import TeacherNavigationBar from "../navbars/teacherNavigationBar";
+import StudentNavigationBar from "../navbars/studentNavigationBar";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, user }) => {
+    let navigationBar = null;
+
+    switch (user?.role) {
+        case "admin":
+            navigationBar = <AdminNavigationBar user={user} />;
+            break;
+        case "teacher":
+            navigationBar = <TeacherNavigationBar user={user} />;
+            break;
+        case "student":
+            navigationBar = <StudentNavigationBar user={user} />;
+            break;
+        default:
+            navigationBar = null; // Or perhaps a default navigation for unauthenticated users
+            break;
+    }
+
     return (
         <div>
-            <NavigationBar /> {/* Navbar is always present */}
-            <main>{children}</main> {/* Dynamic content */}
+            {navigationBar}
+            <main>{children}</main>
         </div>
     );
 };
