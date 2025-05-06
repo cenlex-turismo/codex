@@ -37,7 +37,7 @@ function StudentNavigationBar({ user }) {
                     <NavbarLink href="/dashboard" active>
                         Inicio
                     </NavbarLink>
-                    <NavbarLink onClick={() => handleOpenSearchPage(5)} active>
+                    <NavbarLink onClick={() => handleOpenSearchPage(5)}>
                         Historial
                     </NavbarLink>
                     <Dropdown

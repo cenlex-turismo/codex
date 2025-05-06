@@ -47,13 +47,6 @@ function TeacherNavigationBar({ user }) {
                     <Dropdown
                         arrowIcon={true}
                         inline
-                        label="Profesores"
-                    >
-                        <DropdownItem href="/createTeacher">Registrar profesor</DropdownItem>
-                    </Dropdown>
-                    <Dropdown
-                        arrowIcon={true}
-                        inline
                         label="Cursos"
                     >
                         <DropdownItem href="/createCourse">Crear Curso</DropdownItem>

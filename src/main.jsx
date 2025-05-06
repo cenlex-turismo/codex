@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./components/App";
@@ -11,9 +11,9 @@ import SearchStudent from "./components/student/searchStudent";
 import CreateStudent from "./components/student/createStudent";
 import MainLayout from "./components/layouts/mainLayout";
 import ProtectedRoute from "./components/protectedRoute";
-import RedirectBasedOnAuth from "./components/redirectBasedOnAuth ";
+import RedirectBasedOnAuth from "./components/redirectBasedOnAuth";
+import UpdateUserBasicData from "./components/user/updateUserBasicData";
 
-// Router Component
 function Router() {
     return (
         <BrowserRouter>
@@ -21,7 +21,7 @@ function Router() {
                 {/* Authentication Redirects */}
                 <Route path="/" element={<RedirectBasedOnAuth />} />
                 <Route path="login" element={<RedirectBasedOnAuth />} />
-                
+
                 {/* Main App with Protected Routes */}
                 <Route
                     path="/*"
@@ -41,6 +41,7 @@ function Router() {
                                     <Route path="createCourse" element={<CreateCourse />} />
                                     {/* Users Routes */}
                                     <Route path="createUser" element={<CreateUser />} />
+                                    <Route path="updatedUserBasicData" element={<UpdateUserBasicData />} />
                                 </Routes>
                             </MainLayout>
                         </ProtectedRoute>

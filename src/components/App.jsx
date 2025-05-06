@@ -7,10 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <CreateStudent></CreateStudent>
-      <SearchStudent></SearchStudent>
-      <DeleteOldStudents></DeleteOldStudents>
-      <LogoutUser></LogoutUser>
+      Welcome
     </div>
   );
 }
