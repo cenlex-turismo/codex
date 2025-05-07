@@ -12,7 +12,8 @@ function ShowStudent() {
         idNumber: "",
         firstName: "",
         lastName: "",
-        courseGrades: []
+        courseGrades: [],
+        allowDownload: false
     });
 
     const [openModalResult, setOpenModalResult] = useState(false);
@@ -24,14 +25,16 @@ function ShowStudent() {
                 idNumber: res.data.student.studentDetails.idNumber,
                 firstName: res.data.student.firstName,
                 lastName: res.data.student.lastName,
-                courseGrades: res.data.student.studentDetails.courseGrades
+                courseGrades: res.data.student.studentDetails.courseGrades,
+                allowDownload: res.data.allowDownload
             });
         } catch (err) {
             setResult({
                 idNumber: "",
                 firstName: "",
                 lastName: "",
-                courseGrades: []
+                courseGrades: [],
+                allowDownload: false
             });
             setOpenModalResult(true);
         }
@@ -78,6 +81,9 @@ function ShowStudent() {
                 <p>Boleta: {result.idNumber}</p>
                 <p>Nombre(s): {result.firstName}</p>
                 <p>Apellidos: {result.lastName}</p>
+                {result.allowDownload ? (
+                    <button onClick={() => handleDownload()}>Descargar Historial</button>
+                ) : (<br></br>)}
                 <table>
                     <thead>
                         <tr>
@@ -88,7 +94,6 @@ function ShowStudent() {
                             <th>Fecha de inicio del curso</th>
                             <th>Fecha de termino del curso</th>
                             <th>Maestro</th>
-                            <th>Descargar Historial</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +113,6 @@ function ShowStudent() {
                                     <td>{formatDate(courseGrade.courseStart)}</td>
                                     <td>{formatDate(courseGrade.courseEnd)}</td>
                                     <td>{courseGrade.teacher.firstName} {courseGrade.teacher.lastName}</td>
-                                    <td><button onClick={() => handleDownload()}>Descargar</button></td>
                                 </tr>
                             ))}
                     </tbody>

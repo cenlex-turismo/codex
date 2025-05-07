@@ -63,6 +63,7 @@ function AdminNavigationBar({ user }) {
                         inline
                         label={user.firstName + " " + user.lastName}
                     >
+                        <DropdownItem href="/updatedUserBasicData">Perfil</DropdownItem>
                         <DropdownItem onClick={logout}>Cerrar Sesion</DropdownItem>
                     </Dropdown>
                 </NavbarCollapse>

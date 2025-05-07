@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
@@ -10,6 +10,7 @@ function UpdateUserBasicData() {
         password: "",
         firstName: "",
         lastName: "",
+        email: ""
     });
 
     const updateFormField = (e) => {
@@ -22,7 +23,6 @@ function UpdateUserBasicData() {
     };
 
     const upUser = async (e) => {
-        e.preventDefault();
         if (!window.confirm("Actualizar datos de usuario?")) {
             return;
         }
@@ -34,7 +34,8 @@ function UpdateUserBasicData() {
                 currentPassword: "",
                 password: "",
                 firstName: "",
-                lastName: ""
+                lastName: "",
+                email: ""
             });
 
             window.alert("Usuario registrado con exito");
@@ -44,25 +45,47 @@ function UpdateUserBasicData() {
         }
     };
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await axios.get("/user/getUserBasicData", createForm);
+
+                setCreateForm({
+                    currentPassword: "",
+                    password: "",
+                    firstName: res.data.userData.firstName,
+                    lastName: res.data.userData.lastName,
+                    email: res.data.userData.email
+                });
+            }
+            catch (err) {
+                window.alert("Error al registrar al maestro");
+            }
+        }
+
+        fetchData();
+    }, []);
+
     return (
         <div className="UpdateUserBasicData">
             <div>
                 <h2>Actualizar usuario</h2>
+                <h3>Necesitas tu contraseña actual para realizar cualquier cambio</h3>
                 <form onSubmit={upUser}>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Email:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" required disabled/>
+                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" required disabled />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Contraseña Actual:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.email} onChange={updateFormField} name="currentPassword" type="password" required />
+                            <input value={createForm.currentPassword} onChange={updateFormField} name="currentPassword" type="password" required />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
-                        <label>Contraseña:
+                        <label>Nueva Contraseña:
                             <span style={{ marginRight: '10px' }} />
                             <input value={createForm.password} onChange={updateFormField} name="password" type="password" />
                         </label>
@@ -80,7 +103,7 @@ function UpdateUserBasicData() {
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
-                        <input value="Registrar" type="submit" />
+                        <input value="Actualizar" type="submit" />
                     </div>
                 </form>
             </div>

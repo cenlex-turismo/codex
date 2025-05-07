@@ -5,7 +5,6 @@ import StudentNavigationBar from "../navbars/studentNavigationBar";
 
 const MainLayout = ({ children, user }) => {
     let navigationBar = null;
-    console.log(user);
 
     switch (user?.role) {
         case "admin":

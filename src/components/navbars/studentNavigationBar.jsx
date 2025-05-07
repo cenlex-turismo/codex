@@ -37,7 +37,7 @@ function StudentNavigationBar({ user }) {
                     <NavbarLink href="/dashboard" active>
                         Inicio
                     </NavbarLink>
-                    <NavbarLink onClick={() => handleOpenSearchPage(5)}>
+                    <NavbarLink onClick={() => handleOpenSearchPage(user.idNumber)}>
                         Historial
                     </NavbarLink>
                     <Dropdown
@@ -45,6 +45,7 @@ function StudentNavigationBar({ user }) {
                         inline
                         label={user.firstName + " " + user.lastName}
                     >
+                        <DropdownItem href="/updatedUserBasicData">Perfil</DropdownItem>
                         <DropdownItem onClick={logout}>Cerrar Sesion</DropdownItem>
                     </Dropdown>
                 </NavbarCollapse>
