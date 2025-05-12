@@ -1,5 +1,14 @@
 import axios from "axios";
-import { Dropdown, DropdownDivider, DropdownItem, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import {
+    Dropdown,
+    DropdownItem,
+    Navbar,
+    NavbarBrand,
+    NavbarCollapse,
+    NavbarLink,
+    NavbarToggle,
+    DarkThemeToggle,
+} from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
@@ -39,7 +48,7 @@ function StudentNavigationBar({ user }) {
                         <NavbarLink href="/dashboard" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
                             Inicio
                         </NavbarLink>
-                        <NavbarLink onClick={() => handleOpenSearchPage(user.idNumber)}>
+                        <NavbarLink onClick={() => handleOpenSearchPage(user.idNumber)} className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">
                             Historial
                         </NavbarLink>
                         <Dropdown

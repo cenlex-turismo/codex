@@ -1,5 +1,15 @@
 import axios from "axios";
-import { Dropdown, DropdownDivider, DropdownItem, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import {
+    Dropdown,
+    DropdownDivider,
+    DropdownItem,
+    Navbar,
+    NavbarBrand,
+    NavbarCollapse,
+    NavbarLink,
+    NavbarToggle,
+    DarkThemeToggle,
+} from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
