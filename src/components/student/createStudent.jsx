@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Label, TextInput, Select, Card } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
@@ -13,20 +13,20 @@ function CreateStudent() {
         email: "",
         password: "",
         idNumber: 0,
-        studentType: 0
+        studentType: 0,
     });
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalResult, setOpenModalResult] = useState({
         show: false,
-        message: ""
+        message: "",
     });
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
 
-        if (name === 'studentType') {
-            document.getElementById("idNumber").disabled = value === '2' ? true : false;
+        if (name === "studentType") {
+            document.getElementById("idNumber").disabled = value === "2";
         }
 
         setCreateForm({
@@ -45,18 +45,17 @@ function CreateStudent() {
                 email: "",
                 password: "",
                 idNumber: 0,
-                studentType: 0
+                studentType: 0,
             });
 
             setOpenModalResult({
                 show: true,
-                message: "Alumno registrado con éxito"
+                message: "Alumno registrado con éxito",
             });
-        }
-        catch (err) {
+        } catch (err) {
             setOpenModalResult({
                 show: true,
-                message: "Error al registrar al alumno"
+                message: "Error al registrar al alumno",
             });
         }
     };
@@ -67,55 +66,88 @@ function CreateStudent() {
     };
 
     return (
-        <div className="CreateStudent">
-            <div>
-                <h2>Registrar Alumno</h2>
-                <form onSubmit={showModal}>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Nombre(s):
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.firstName} onChange={updateFormField} name="firstName" type="text" />
-                        </label>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <Card className="w-full max-w-lg p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Registrar Alumno</h2>
+                <form onSubmit={showModal} className="flex flex-col gap-4">
+                    <div>
+                        <Label htmlFor="firstName">Nombre(s):</Label>
+                        <TextInput
+                            value={createForm.firstName}
+                            id="firstName"
+                            name="firstName"
+                            type="text"
+                            onChange={updateFormField}
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Apellidos:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.lastName} onChange={updateFormField} name="lastName" type="text" />
-                        </label>
+                    <div>
+                        <Label htmlFor="lastName">Apellidos:</Label>
+                        <TextInput
+                            value={createForm.lastName}
+                            id="lastName"
+                            name="lastName"
+                            type="text"
+                            onChange={updateFormField}
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Email:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" />
-                        </label>
+                    <div>
+                        <Label htmlFor="email">Email:</Label>
+                        <TextInput
+                            value={createForm.email}
+                            id="email"
+                            name="email"
+                            type="email"
+                            onChange={updateFormField}
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Contraseña:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.password} onChange={updateFormField} name="password" type="password" />
-                        </label>
+                    <div>
+                        <Label htmlFor="password">Contraseña:</Label>
+                        <TextInput
+                            value={createForm.password}
+                            id="password"
+                            name="password"
+                            type="password"
+                            onChange={updateFormField}
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Tipo de alumno
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={createForm.studentType} onChange={updateFormField} id="studentType" name="studentType">
-                                <option value={0} disabled>Selecciona un tipo de curso</option>
-                                <option value={1}>Comunidad IPN</option>
-                                <option value={2}>Externo</option>
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="studentType">Tipo de alumno:</Label>
+                        <Select
+                            value={createForm.studentType}
+                            id="studentType"
+                            name="studentType"
+                            onChange={updateFormField}
+                            required
+                        >
+                            <option value={0} disabled>
+                                Selecciona un tipo de alumno
+                            </option>
+                            <option value={1}>Comunidad IPN</option>
+                            <option value={2}>Externo</option>
+                        </Select>
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Boleta:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.idNumber} onChange={updateFormField} name="idNumber" id="idNumber" type="number" />
-                        </label>
+                    <div>
+                        <Label htmlFor="idNumber">Boleta:</Label>
+                        <TextInput
+                            value={createForm.idNumber}
+                            id="idNumber"
+                            name="idNumber"
+                            type="number"
+                            onChange={updateFormField}
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <input value="Registrar" type="submit" />
-                    </div>
+                    <Button type="submit" className="w-full">
+                        Registrar
+                    </Button>
                 </form>
-            </div>
+            </Card>
+
+            {/* Confirmation Modal */}
             <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
                 <ModalHeader />
                 <ModalBody>
@@ -125,11 +157,14 @@ function CreateStudent() {
                             ¿Seguro de registrar al alumno?
                         </h3>
                         <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => {
-                                setOpenModal(false);
-                                registerStudent();
-                            }}>
-                                {"Si, registrar"}
+                            <Button
+                                color="failure"
+                                onClick={() => {
+                                    setOpenModal(false);
+                                    registerStudent();
+                                }}
+                            >
+                                Sí, registrar
                             </Button>
                             <Button color="gray" onClick={() => setOpenModal(false)}>
                                 No, cancelar
@@ -138,17 +173,22 @@ function CreateStudent() {
                     </div>
                 </ModalBody>
             </Modal>
-            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
-                ...setOpenModalResult,
-                show: false
-            })}>
+
+            {/* Result Modal */}
+            <Modal
+                size="md"
+                popup
+                dismissible
+                show={openModalResult.show}
+                onClose={() => setOpenModalResult({ ...openModalResult, show: false })}
+            >
                 <ModalHeader />
                 <ModalBody>
                     <div className="text-center space-y-6">
                         {openModalResult.message === "Alumno registrado con éxito" ? (
-                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
                         ) : (
-                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />
                         )}
                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                             {openModalResult.message}
@@ -156,10 +196,12 @@ function CreateStudent() {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={() => setOpenModalResult({
-                        ...setOpenModalResult,
-                        show: false
-                    })}>Aceptar</Button>
+                    <Button
+                        onClick={() => setOpenModalResult({ ...openModalResult, show: false })}
+                        className="w-full"
+                    >
+                        Aceptar
+                    </Button>
                 </ModalFooter>
             </Modal>
         </div>

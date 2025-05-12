@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalHeader,
+    ModalFooter,
+    Label,
+    TextInput,
+    Select,
+    Card,
+} from "flowbite-react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
@@ -19,25 +29,17 @@ function FilterStudents() {
         courseStartCondition: "",
         courseEnd: "",
         courseEndCondition: "",
-        teacher: ""
+        teacher: "",
     });
 
     const [courses, setCourses] = useState([]);
-
     const [teachers, setTeachers] = useState([]);
-
     const [result, setResult] = useState([]);
-
-    const [openModalResult, setOpenModalResult] = useState({
-        show: false,
-        message: ""
-    });
-
+    const [openModalResult, setOpenModalResult] = useState({ show: false, message: "" });
     const navigate = useNavigate();
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
-
         setSearchForm({
             ...searchForm,
             [name]: value,
@@ -46,42 +48,29 @@ function FilterStudents() {
 
     const searchStudent = async (e) => {
         e.preventDefault();
-
         try {
-            const res = await axios.get("/student/filterStudents/", {
-                params: searchForm
-            });
-
+            const res = await axios.get("/student/filterStudents/", { params: searchForm });
             setResult(res.data.students);
-
-            setOpenModalResult({
-                show: true,
-                message: "Alumnos encontrados"
-            });
-        }
-        catch (err) {
-            console.log(err);
-
+            setOpenModalResult({ show: true, message: "Alumnos encontrados" });
+        } catch (err) {
+            console.error(err);
             setResult([]);
-            setOpenModalResult({
-                show: true,
-                message: "Error al buscar alumnos"
-            });
+            setOpenModalResult({ show: true, message: "Error al buscar alumnos" });
         }
     };
 
     useEffect(() => {
         fetch("https://api.celexest.com/course/getAllCourses", { credentials: "include" })
-            .then(response => response.json())
-            .then(data => setCourses(data.courses))
-            .catch(error => console.error("Error al obtener los cursos:", error));
+            .then((response) => response.json())
+            .then((data) => setCourses(data.courses))
+            .catch((error) => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
         fetch("https://api.celexest.com/teacher/getAllTeachers", { credentials: "include" })
-            .then(response => response.json())
-            .then(data => setTeachers(data.teachers))
-            .catch(error => console.error("Error al obtener a los maestros:", error));
+            .then((response) => response.json())
+            .then((data) => setTeachers(data.teachers))
+            .catch((error) => console.error("Error al obtener a los maestros:", error));
     }, []);
 
     const handleOpenSearchPage = (idNumber) => {
@@ -92,125 +81,194 @@ function FilterStudents() {
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
     return (
-        <div className="SearchStudent">
-            <div>
-                <h2>Busqueda Avanzada</h2>
-                <form onSubmit={searchStudent}>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Boleta:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.idNumber} onChange={updateFormField} name="idNumber" type="Number" />
-                        </label>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <Card className="w-full max-w-4xl p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+                    Búsqueda Avanzada
+                </h2>
+                <form onSubmit={searchStudent} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                        <Label htmlFor="idNumber">Boleta:</Label>
+                        <TextInput
+                            id="idNumber"
+                            name="idNumber"
+                            type="number"
+                            value={searchForm.idNumber}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Nombre:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.firstName} onChange={updateFormField} name="firstName" type="text" />
-                        </label>
+                    <div>
+                        <Label htmlFor="firstName">Nombre:</Label>
+                        <TextInput
+                            id="firstName"
+                            name="firstName"
+                            type="text"
+                            value={searchForm.firstName}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Apellidos:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.lastName} onChange={updateFormField} name="lastName" type="text" />
-                        </label>
+                    <div>
+                        <Label htmlFor="lastName">Apellidos:</Label>
+                        <TextInput
+                            id="lastName"
+                            name="lastName"
+                            type="text"
+                            value={searchForm.lastName}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={searchForm.course} onChange={updateFormField} id="course" name="course">
-                                <option value={""} disabled>Selecciona un curso</option>
-                                {courses.map(course => (
-                                    <option key={course._id} value={course._id}>{course.language + " " + levels[course.level - 1] + " " + modules[course.module - 1]}</option>
-                                ))}
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="course">Curso:</Label>
+                        <Select
+                            id="course"
+                            name="course"
+                            value={searchForm.course}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un curso
+                            </option>
+                            {courses.map((course) => (
+                                <option key={course._id} value={course._id}>
+                                    {`${course.language} ${levels[course.level - 1]} ${modules[course.module - 1]}`}
+                                </option>
+                            ))}
+                        </Select>
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Maestro:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={searchForm.teacher} onChange={updateFormField} id="teacher" name="teacher">
-                                <option value={""} disabled>Selecciona un Maestro</option>
-                                {teachers.map(teacher => (
-                                    <option key={teacher._id} value={teacher._id}>{teacher.firstName + " " + teacher.lastName}</option>
-                                ))}
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="teacher">Maestro:</Label>
+                        <Select
+                            id="teacher"
+                            name="teacher"
+                            value={searchForm.teacher}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un Maestro
+                            </option>
+                            {teachers.map((teacher) => (
+                                <option key={teacher._id} value={teacher._id}>
+                                    {`${teacher.firstName} ${teacher.lastName}`}
+                                </option>
+                            ))}
+                        </Select>
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Calificacion:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.score} onChange={updateFormField} id="score" name="score" type="number" min={0} max={100} />
-                        </label>
+                    <div>
+                        <Label htmlFor="score">Calificación:</Label>
+                        <TextInput
+                            id="score"
+                            name="score"
+                            type="number"
+                            min="0"
+                            max="100"
+                            value={searchForm.score}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Comparativa calificacion:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={searchForm.scoreCondition} onChange={updateFormField} id="scoreCondition" name="scoreCondition">
-                                <option value={""} disabled>Selecciona un comparador</option>
-                                <option value={"equal"}>Igual</option>
-                                <option value={"greater"}>Mayor que</option>
-                                <option value={"less"}>Menor que</option>
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="scoreCondition">Comparativa calificación:</Label>
+                        <Select
+                            id="scoreCondition"
+                            name="scoreCondition"
+                            value={searchForm.scoreCondition}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un comparador
+                            </option>
+                            <option value="equal">Igual</option>
+                            <option value="greater">Mayor que</option>
+                            <option value="less">Menor que</option>
+                        </Select>
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Inicio del curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.courseStart} onChange={updateFormField} id="courseStart" name="courseStart" type="date" min="2010-01-01" />
-                        </label>
+                    <div>
+                        <Label htmlFor="courseStart">Inicio del curso:</Label>
+                        <TextInput
+                            id="courseStart"
+                            name="courseStart"
+                            type="date"
+                            value={searchForm.courseStart}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Comparativa Fecha de inicio:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={searchForm.courseStartCondition} onChange={updateFormField} id="courseStartCondition" name="courseStartCondition">
-                                <option value={""} disabled>Selecciona un comparador</option>
-                                <option value={"equal"}>Igual</option>
-                                <option value={"greater"}>Mayor que</option>
-                                <option value={"less"}>Menor que</option>
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="courseStartCondition">Comparativa Fecha de inicio:</Label>
+                        <Select
+                            id="courseStartCondition"
+                            name="courseStartCondition"
+                            value={searchForm.courseStartCondition}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un comparador
+                            </option>
+                            <option value="equal">Igual</option>
+                            <option value="greater">Mayor que</option>
+                            <option value="less">Menor que</option>
+                        </Select>
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Fin del curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={searchForm.courseEnd} onChange={updateFormField} id="courseEnd" name="courseEnd" type="date" min="2010-01-01" />
-                        </label>
+                    <div>
+                        <Label htmlFor="courseEnd">Fin del curso:</Label>
+                        <TextInput
+                            id="courseEnd"
+                            name="courseEnd"
+                            type="date"
+                            value={searchForm.courseEnd}
+                            onChange={updateFormField}
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Comparativa Fecha de termino:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={searchForm.courseEndCondition} onChange={updateFormField} id="courseEndCondition" name="courseEndCondition">
-                                <option value={""} disabled>Selecciona un comparador</option>
-                                <option value={"equal"}>Igual</option>
-                                <option value={"greater"}>Mayor que</option>
-                                <option value={"less"}>Menor que</option>
-                            </select>
-                        </label>
+                    <div>
+                        <Label htmlFor="courseEndCondition">Comparativa Fecha de término:</Label>
+                        <Select
+                            id="courseEndCondition"
+                            name="courseEndCondition"
+                            value={searchForm.courseEndCondition}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un comparador
+                            </option>
+                            <option value="equal">Igual</option>
+                            <option value="greater">Mayor que</option>
+                            <option value="less">Menor que</option>
+                        </Select>
                     </div>
-                    <input value="Buscar" type="submit" />
+                    <Button type="submit" className="mt-4 w-full md:col-span-2">
+                        Buscar
+                    </Button>
                 </form>
-            </div>
-            <div>
-                {result.map(student => (
-                    <>
-                        <p key={student._id + "1"}>Boleta: {student.studentDetails.idNumber}</p>
-                        <p key={student._id + "2"}>Nombre(s): {student.firstName}</p>
-                        <p key={student._id + "3"}>Apellidos: {student.lastName}</p>
-                        <button onClick={() => handleOpenSearchPage(student.studentDetails.idNumber)}>Ver perfil del alumno</button>
-                    </>
+            </Card>
+
+            <div className="mt-6 w-full max-w-4xl">
+                {result.map((student) => (
+                    <Card key={student._id} className="mb-4">
+                        <p className="text-gray-800 dark:text-white"><strong>Boleta:</strong> {student.studentDetails.idNumber}</p>
+                        <p className="text-gray-800 dark:text-white"><strong>Nombre(s):</strong> {student.firstName}</p>
+                        <p className="text-gray-800 dark:text-white"><strong>Apellidos:</strong> {student.lastName}</p>
+                        <Button
+                            onClick={() => handleOpenSearchPage(student.studentDetails.idNumber)}
+                            className="mt-2"
+                        >
+                            Ver perfil del alumno
+                        </Button>
+                    </Card>
                 ))}
             </div>
-            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
-                ...setOpenModalResult,
-                show: false
-            })}>
+
+            <Modal
+                size="md"
+                popup
+                dismissible
+                show={openModalResult.show}
+                onClose={() => setOpenModalResult({ show: false, message: "" })}
+            >
                 <ModalHeader />
                 <ModalBody>
                     <div className="text-center space-y-6">
                         {openModalResult.message === "Alumnos encontrados" ? (
-                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
                         ) : (
-                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />
                         )}
                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                             {openModalResult.message}
@@ -218,10 +276,11 @@ function FilterStudents() {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={() => setOpenModalResult({
-                        ...setOpenModalResult,
-                        show: false
-                    })}>Aceptar</Button>
+                    <Button
+                        onClick={() => setOpenModalResult({ show: false, message: "" })}
+                    >
+                        Aceptar
+                    </Button>
                 </ModalFooter>
             </Modal>
         </div>
