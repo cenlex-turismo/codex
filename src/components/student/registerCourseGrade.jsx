@@ -6,183 +6,193 @@ import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-ico
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
-function RegisterCourseGrade(props) {
-
-    const { idNumber } = props;
-
+function RegisterCourseGrade({ idNumber }) {
     const [courses, setCourses] = useState([]);
-
     const [teachers, setTeachers] = useState([]);
-
     const [courseForm, setCourseForm] = useState(() => {
-        const today = new Date().toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+        const today = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
         return {
             course: "0",
             courseStart: today,
             courseEnd: today,
             score: 0,
-            teacher: "0"
+            teacher: "0",
         };
     });
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalResult, setOpenModalResult] = useState({
         show: false,
-        message: ""
+        message: "",
     });
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
-
-        setCourseForm({
-            ...courseForm,
-            [name]: value,
-        });
+        setCourseForm({ ...courseForm, [name]: value });
     };
 
     const registerCourseGrade = async () => {
-        if (idNumber === null) {
+        if (!idNumber) {
+            setOpenModal(false);
             return;
-        }
+        };
 
         try {
-            await axios.put("/student/registerCourseGrade/" + idNumber, courseForm);
+            await axios.put(`/student/registerCourseGrade/${idNumber}`, courseForm);
 
             setCourseForm({
                 course: "0",
                 courseStart: "2025-01-01",
                 courseEnd: "2025-01-01",
                 score: 0,
-                teacher: "0"
+                teacher: "0",
             });
 
-            setOpenModalResult({
-                show: true,
-                message: "Calificación registrada con éxito"
-            });
-        }
-        catch (err) {
-            setOpenModalResult({
-                show: true,
-                message: "Error al registrar calificación"
-            });
+            setOpenModalResult({ show: true, message: "Calificación registrada con éxito" });
+        } catch (err) {
+            setOpenModalResult({ show: true, message: "Error al registrar calificación" });
         }
     };
 
-    const showModal = async (e) => {
+    const showModal = (e) => {
         e.preventDefault();
         setOpenModal(true);
     };
 
     useEffect(() => {
-        fetch("https://api.celexest.com/course/getAllCourses", { credentials: "include" })
-            .then(response => response.json())
-            .then(data => setCourses(data.courses))
-            .catch(error => console.error("Error al obtener los cursos:", error));
+        axios
+            .get("/course/getAllCourses", { withCredentials: true })
+            .then((response) => setCourses(response.data.courses))
+            .catch((error) => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
-        fetch("https://api.celexest.com/teacher/getAllTeachers", { credentials: "include" })
-            .then(response => response.json())
-            .then(data => setTeachers(data.teachers))
-            .catch(error => console.error("Error al obtener a los maestros:", error));
+        axios
+            .get("/teacher/getAllTeachers", { withCredentials: true })
+            .then((response) => setTeachers(response.data.teachers))
+            .catch((error) => console.error("Error al obtener a los maestros:", error));
     }, []);
 
-    const levels = ["Basico", "Intermedio", "Avanzado"];
+    const levels = ["Básico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
     return (
-        <div className="RegisterCourseGrade">
-            <div>
-                <h2>Registrar calificacion</h2>
-                <form onSubmit={showModal}>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={courseForm.course} onChange={updateFormField} id="course" name="course">
-                                <option value={0} disabled>Selecciona un curso</option>
-                                {courses.map(course => (
-                                    <option key={course._id} value={course._id}>{course.language + " " + levels[course.level - 1] + " " + modules[course.module - 1]}</option>
-                                ))}
-                            </select>
-                        </label>
-                    </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Maestro:
-                            <span style={{ marginRight: '10px' }} />
-                            <select value={courseForm.teacher} onChange={updateFormField} id="teacher" name="teacher">
-                                <option value={0} disabled>Selecciona un Maestro</option>
-                                {teachers.map(teacher => (
-                                    <option key={teacher._id} value={teacher._id}>{teacher.firstName + " " + teacher.lastName}</option>
-                                ))}
-                            </select>
-                        </label>
-                    </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Calificacion:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={courseForm.score} onChange={updateFormField} id="score" name="score" type="number" min={0} max={100} />
-                        </label>
-                    </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Inicio del curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={courseForm.courseStart} onChange={updateFormField} id="courseStart" name="courseStart" type="date" min="2010-01-01" />
-                        </label>
-                    </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Fin del curso:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={courseForm.courseEnd} onChange={updateFormField} id="courseEnd" name="courseEnd" type="date" min="2010-01-01" />
-                        </label>
-                    </div>
-                    <input value="Registrar" type="submit" />
-                </form>
-            </div>
+        <div className="p-6 bg-gray-100 dark:bg-gray-900 rounded-xl shadow-lg">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Registrar Calificación</h2>
+            <form onSubmit={showModal} className="space-y-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Curso</label>
+                    <select
+                        value={courseForm.course}
+                        onChange={updateFormField}
+                        name="course"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    >
+                        <option value="0" disabled>
+                            Selecciona un curso
+                        </option>
+                        {courses.map((course) => (
+                            <option key={course._id} value={course._id}>
+                                {`${course.language} ${levels[course.level - 1]} ${modules[course.module - 1]}`}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Maestro</label>
+                    <select
+                        value={courseForm.teacher}
+                        onChange={updateFormField}
+                        name="teacher"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    >
+                        <option value="0" disabled>
+                            Selecciona un maestro
+                        </option>
+                        {teachers.map((teacher) => (
+                            <option key={teacher._id} value={teacher._id}>
+                                {`${teacher.firstName} ${teacher.lastName}`}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Calificación</label>
+                    <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        value={courseForm.score}
+                        onChange={updateFormField}
+                        name="score"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Inicio del Curso</label>
+                    <input
+                        type="date"
+                        value={courseForm.courseStart}
+                        onChange={updateFormField}
+                        name="courseStart"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Fin del Curso</label>
+                    <input
+                        type="date"
+                        value={courseForm.courseEnd}
+                        onChange={updateFormField}
+                        name="courseEnd"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    />
+                </div>
+                <Button type="submit" className="w-full">
+                    Registrar
+                </Button>
+            </form>
+
+            {/* Confirmation Modal */}
             <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
                 <ModalHeader />
-                <ModalBody>
-                    <div className="text-center">
-                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            ¿Seguro de registrar la calificación?
-                        </h3>
-                        <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={() => {
-                                setOpenModal(false);
-                                registerCourseGrade();
-                            }}>
-                                {"Si, registrar"}
-                            </Button>
-                            <Button color="gray" onClick={() => setOpenModal(false)}>
-                                No, cancelar
-                            </Button>
-                        </div>
+                <ModalBody className="text-center">
+                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                    <h3 className="mb-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+                        ¿Está seguro de registrar esta calificación?
+                    </h3>
+                    <div className="flex justify-center space-x-4">
+                        <Button onClick={registerCourseGrade} color="failure">
+                            Sí, registrar
+                        </Button>
+                        <Button onClick={() => setOpenModal(false)} color="gray">
+                            Cancelar
+                        </Button>
                     </div>
                 </ModalBody>
             </Modal>
-            <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({
-                ...setOpenModalResult,
-                show: false
-            })}>
+
+            {/* Result Modal */}
+            <Modal
+                show={openModalResult.show}
+                size="md"
+                onClose={() => setOpenModalResult({ ...openModalResult, show: false })}
+                popup
+                dismissible
+            >
                 <ModalHeader />
-                <ModalBody>
-                    <div className="text-center space-y-6">
-                        {openModalResult.message === "Calificación registrada con éxito" ? (
-                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                        ) : (
-                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                        )}
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            {openModalResult.message}
-                        </p>
-                    </div>
+                <ModalBody className="text-center space-y-4">
+                    {openModalResult.message === "Calificación registrada con éxito" ? (
+                        <HiCheckCircle className="mx-auto h-14 w-14 text-green-500" />
+                    ) : (
+                        <HiOutlineX className="mx-auto h-14 w-14 text-red-500" />
+                    )}
+                    <p className="text-gray-700 dark:text-gray-300">{openModalResult.message}</p>
                 </ModalBody>
                 <ModalFooter>
-                    <Button onClick={() => setOpenModalResult({
-                        ...setOpenModalResult,
-                        show: false
-                    })}>Aceptar</Button>
+                    <Button onClick={() => setOpenModalResult({ ...openModalResult, show: false })}>
+                        Aceptar
+                    </Button>
                 </ModalFooter>
             </Modal>
         </div>
