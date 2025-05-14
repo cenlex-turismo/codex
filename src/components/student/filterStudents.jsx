@@ -77,6 +77,11 @@ function FilterStudents() {
         navigate(`/showStudent?idNumber=${idNumber}`);
     };
 
+    const numberInputOnWheelPreventChange = (e) => {
+        // Prevent the input value change
+        e.target.blur()
+    }
+
     const levels = ["Basico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
@@ -93,6 +98,7 @@ function FilterStudents() {
                             id="idNumber"
                             name="idNumber"
                             type="number"
+                            onWheel={numberInputOnWheelPreventChange}
                             value={searchForm.idNumber}
                             onChange={updateFormField}
                         />
@@ -161,6 +167,7 @@ function FilterStudents() {
                             type="number"
                             min="0"
                             max="100"
+                            onWheel={numberInputOnWheelPreventChange}
                             value={searchForm.score}
                             onChange={updateFormField}
                         />

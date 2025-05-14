@@ -75,6 +75,11 @@ function RegisterCourseGrade({ idNumber }) {
             .catch((error) => console.error("Error al obtener a los maestros:", error));
     }, []);
 
+    const numberInputOnWheelPreventChange = (e) => {
+        // Prevent the input value change
+        e.target.blur()
+    }
+
     const levels = ["Básico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
@@ -126,6 +131,7 @@ function RegisterCourseGrade({ idNumber }) {
                         max="100"
                         value={courseForm.score}
                         onChange={updateFormField}
+                        onWheel={numberInputOnWheelPreventChange}
                         name="score"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
                     />

@@ -56,6 +56,11 @@ function CreateCourse() {
         setOpenModal(true);
     };
 
+    const numberInputOnWheelPreventChange = (e) => {
+        // Prevent the input value change
+        e.target.blur()
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <div>
@@ -70,13 +75,13 @@ function CreateCourse() {
                     <div style={{ marginBottom: '10px' }}>
                         <label>Nivel:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.level} onChange={updateFormField} name="level" type="number" />
+                            <input value={createForm.level} onChange={updateFormField} name="level" type="number" onWheel={numberInputOnWheelPreventChange} />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Modulo:
                             <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.module} onChange={updateFormField} name="module" type="number" />
+                            <input value={createForm.module} onChange={updateFormField} name="module" type="number" onWheel={numberInputOnWheelPreventChange} />
                         </label>
                     </div>
                     <div style={{ marginBottom: '10px' }}>

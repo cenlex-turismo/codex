@@ -65,6 +65,11 @@ function CreateStudent() {
         setOpenModal(true);
     };
 
+    const numberInputOnWheelPreventChange = (e) => {
+        // Prevent the input value change
+        e.target.blur()
+    }
+
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <Card className="w-full max-w-lg p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
@@ -138,6 +143,7 @@ function CreateStudent() {
                             name="idNumber"
                             type="number"
                             onChange={updateFormField}
+                            onWheel={numberInputOnWheelPreventChange}
                             required
                         />
                     </div>
