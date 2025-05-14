@@ -52,9 +52,9 @@ function TeacherNavigationBar({ user }) {
                         >
                             <DropdownItem href="/createStudent">Registrar alumno</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem href="/searchStudent">Buscar alumno</DropdownItem>
+                            <DropdownItem href="/searchStudent">Registrar Calificación</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem href="/filterStudents">Buscar alumno - Avanzado</DropdownItem>
+                            <DropdownItem href="/filterStudents">Buscar alumno</DropdownItem>
                         </Dropdown>
                         <Dropdown
                             arrowIcon={true}

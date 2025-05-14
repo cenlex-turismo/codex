@@ -57,9 +57,9 @@ function CreateCourse() {
     };
 
     return (
-        <div className="CreateCourse">
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <div>
-                <h2>Registrar Curso</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Registrar Curso</h2>
                 <form onSubmit={showModal}>
                     <div style={{ marginBottom: '10px' }}>
                         <label>Lenguaje:

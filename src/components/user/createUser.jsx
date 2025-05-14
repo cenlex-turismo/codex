@@ -44,7 +44,7 @@ function CreateUser() {
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <Card className="max-w-lg w-full shadow-lg">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center">Registrar Usuario</h2>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center">Registrar Nuevo Administrador</h2>
                 <form onSubmit={registerUser} className="space-y-4">
                     <div>
                         <Label htmlFor="email" value="Email" />

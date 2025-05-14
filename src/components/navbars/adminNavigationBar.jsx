@@ -59,10 +59,10 @@ function AdminNavigationBar({ user }) {
                         <Dropdown arrowIcon inline label="Alumnos">
                             <DropdownItem href="/createStudent">Registrar alumno</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem href="/searchStudent">Buscar alumno</DropdownItem>
+                            <DropdownItem href="/searchStudent">Registrar Calificación</DropdownItem>
                             <DropdownDivider />
                             <DropdownItem href="/filterStudents">
-                                Buscar alumno - Avanzado
+                                Buscar alumno
                             </DropdownItem>
                         </Dropdown>
                         <Dropdown arrowIcon inline label="Profesores">
@@ -70,6 +70,9 @@ function AdminNavigationBar({ user }) {
                         </Dropdown>
                         <Dropdown arrowIcon inline label="Cursos">
                             <DropdownItem href="/createCourse">Crear Curso</DropdownItem>
+                        </Dropdown>
+                        <Dropdown arrowIcon inline label="Administrador">
+                            <DropdownItem href="/createAdmin">Registrar administrador</DropdownItem>
                         </Dropdown>
                         <Dropdown
                             arrowIcon

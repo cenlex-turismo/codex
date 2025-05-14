@@ -37,7 +37,7 @@ function CreateStudent() {
 
     const registerStudent = async () => {
         try {
-            await axios.post("/student/createStudent", createForm);
+            await axios.post("/createStudent", createForm);
 
             setCreateForm({
                 firstName: "",

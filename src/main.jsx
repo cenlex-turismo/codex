@@ -21,6 +21,7 @@ function Router() {
                 {/* Authentication Redirects */}
                 <Route path="/" element={<RedirectBasedOnAuth />} />
                 <Route path="login" element={<RedirectBasedOnAuth />} />
+                <Route path="signup" element={<CreateStudent />} />
 
                 {/* Main App with Protected Routes */}
                 <Route
@@ -40,7 +41,7 @@ function Router() {
                                     {/* Courses Routes */}
                                     <Route path="createCourse" element={<CreateCourse />} />
                                     {/* Users Routes */}
-                                    <Route path="createUser" element={<CreateUser />} />
+                                    <Route path="createAdmin" element={<CreateUser />} />
                                     <Route path="updatedUserBasicData" element={<UpdateUserBasicData />} />
                                 </Routes>
                             </MainLayout>

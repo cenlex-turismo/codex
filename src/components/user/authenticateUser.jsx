@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Label, TextInput, Card } from "flowbite-react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
@@ -69,6 +69,11 @@ function AuthenticateUser() {
                     </div>
                     <Button type="submit" className="w-full">Ingresar</Button>
                 </form>
+                <div className="mt-4">
+                    <Link to="/signup" className="text-blue-600 dark:text-blue-400 underline">
+                        Registrarse
+                    </Link>
+                </div>
             </Card>
 
             <Modal size="md" popup dismissible show={openModalResult.show} onClose={() => setOpenModalResult({ ...openModalResult, show: false })}>
