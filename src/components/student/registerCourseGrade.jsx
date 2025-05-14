@@ -47,9 +47,11 @@ function RegisterCourseGrade({ idNumber }) {
                 score: 0,
                 teacher: "0",
             });
-
+            
+            setOpenModal(false);
             setOpenModalResult({ show: true, message: "Calificación registrada con éxito" });
         } catch (err) {
+            setOpenModal(false);
             setOpenModalResult({ show: true, message: "Error al registrar calificación" });
         }
     };

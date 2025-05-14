@@ -1,27 +1,26 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { Button, Modal, ModalBody, ModalHeader, ModalFooter } from "flowbite-react";
+import { Button } from "flowbite-react";
 
 axios.defaults.baseURL = "https://api.celexest.com";
 axios.defaults.withCredentials = true;
 
-function ShowStudent() {
+function ShowStudent({ propIdNumber }) {
     const [searchParams] = useSearchParams();
     const [studentData, setStudentData] = useState({
         idNumber: "",
         firstName: "",
         lastName: "",
+        email: "",
         courseGrades: [],
         allowDownload: false,
     });
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
     useEffect(() => {
-        const idNumber = searchParams.get("idNumber");
+        const idNumber = propIdNumber || searchParams.get("idNumber");
         if (idNumber) fetchStudentData(idNumber);
-    }, [searchParams]);
+    }, [searchParams, propIdNumber]);
 
     const fetchStudentData = async (idNumber) => {
         try {
@@ -30,6 +29,7 @@ function ShowStudent() {
                 idNumber: response.data.student.studentDetails.idNumber,
                 firstName: response.data.student.firstName,
                 lastName: response.data.student.lastName,
+                email: response.data.student.email,
                 courseGrades: response.data.student.studentDetails.courseGrades,
                 allowDownload: response.data.allowDownload,
             });
@@ -39,10 +39,10 @@ function ShowStudent() {
                 idNumber: "",
                 firstName: "",
                 lastName: "",
+                email: "",
                 courseGrades: [],
                 allowDownload: false,
             });
-            setIsModalOpen(true);
         }
     };
 
@@ -89,6 +89,9 @@ function ShowStudent() {
                     <p className="text-gray-700 dark:text-gray-300">
                         <span className="font-semibold">Apellidos:</span> {studentData.lastName}
                     </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                        <span className="font-semibold">Email:</span> {studentData.email}
+                    </p>
                     {studentData.allowDownload && (
                         <Button onClick={downloadTranscript} className="mt-4">
                             Descargar Historial
@@ -132,25 +135,6 @@ function ShowStudent() {
                     </table>
                 </div>
             </div>
-
-            {/* Modal */}
-            <Modal
-                show={isModalOpen}
-                size="md"
-                popup
-                dismissible
-                onClose={() => setIsModalOpen(false)}
-            >
-                <ModalHeader />
-                <ModalBody>
-                    <div className="text-center">
-                        <p className="text-gray-700 dark:text-gray-300">El alumno no existe</p>
-                    </div>
-                </ModalBody>
-                <ModalFooter>
-                    <Button onClick={() => setIsModalOpen(false)}>Aceptar</Button>
-                </ModalFooter>
-            </Modal>
         </div>
     );
 }
