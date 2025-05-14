@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Button, TextInput, Label, Card } from "flowbite-react";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -14,7 +15,6 @@ function CreateUser() {
 
     const updateFormField = (e) => {
         const { name, value } = e.target;
-
         setCreateForm({
             ...createForm,
             [name]: value,
@@ -23,61 +23,82 @@ function CreateUser() {
 
     const registerUser = async (e) => {
         e.preventDefault();
-        if (!window.confirm("Registrar usuario?")) {
-            return;
-        }
+        const confirmRegistration = window.confirm("¿Registrar usuario?");
+        if (!confirmRegistration) return;
 
         try {
             await axios.post("/user/createUser", createForm);
-
             setCreateForm({
                 email: "",
                 password: "",
                 firstName: "",
-                lastName: ""
+                lastName: "",
             });
-
-            window.alert("Usuario registrado con exito");
-        }
-        catch (err) {
-            window.alert("Error al registrar al maestro");
+            window.alert("Usuario registrado con éxito");
+        } catch (err) {
+            console.error(err);
+            window.alert("Error al registrar al usuario");
         }
     };
 
     return (
-        <div className="CreateUser">
-            <div>
-                <h2>Registrar usuario</h2>
-                <form onSubmit={registerUser}>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Email:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.email} onChange={updateFormField} name="email" type="email" />
-                        </label>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
+            <Card className="max-w-lg w-full shadow-lg">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center">Registrar Usuario</h2>
+                <form onSubmit={registerUser} className="space-y-4">
+                    <div>
+                        <Label htmlFor="email" value="Email" />
+                        <TextInput
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={createForm.email}
+                            onChange={updateFormField}
+                            placeholder="Ingresa tu email"
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Contraseña:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.password} onChange={updateFormField} name="password" type="password" />
-                        </label>
+                    <div>
+                        <Label htmlFor="password" value="Contraseña" />
+                        <TextInput
+                            id="password"
+                            type="password"
+                            name="password"
+                            value={createForm.password}
+                            onChange={updateFormField}
+                            placeholder="Crea una contraseña"
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Nombre(s):
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.firstName} onChange={updateFormField} name="firstName" type="text" />
-                        </label>
+                    <div>
+                        <Label htmlFor="firstName" value="Nombre(s)" />
+                        <TextInput
+                            id="firstName"
+                            type="text"
+                            name="firstName"
+                            value={createForm.firstName}
+                            onChange={updateFormField}
+                            placeholder="Ingresa tu nombre"
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>Apellidos:
-                            <span style={{ marginRight: '10px' }} />
-                            <input value={createForm.lastName} onChange={updateFormField} name="lastName" type="text" />
-                        </label>
+                    <div>
+                        <Label htmlFor="lastName" value="Apellidos" />
+                        <TextInput
+                            id="lastName"
+                            type="text"
+                            name="lastName"
+                            value={createForm.lastName}
+                            onChange={updateFormField}
+                            placeholder="Ingresa tus apellidos"
+                            required
+                        />
                     </div>
-                    <div style={{ marginBottom: '10px' }}>
-                        <input value="Registrar" type="submit" />
-                    </div>
+                    <Button type="submit" className="w-full">
+                        Registrar
+                    </Button>
                 </form>
-            </div>
+            </Card>
         </div>
     );
 }
