@@ -13,6 +13,7 @@ import MainLayout from "./components/layouts/mainLayout";
 import ProtectedRoute from "./components/protectedRoute";
 import RedirectBasedOnAuth from "./components/redirectBasedOnAuth";
 import UpdateUserBasicData from "./components/user/updateUserBasicData";
+import DeleteOldStudents from "./components/student/deleteOldStudents";
 
 function Router() {
     return (
@@ -43,6 +44,7 @@ function Router() {
                                     {/* Users Routes */}
                                     <Route path="createAdmin" element={<CreateUser />} />
                                     <Route path="updatedUserBasicData" element={<UpdateUserBasicData />} />
+                                    <Route path="deleteOldStudents" element={<DeleteOldStudents />} />
                                 </Routes>
                             </MainLayout>
                         </ProtectedRoute>

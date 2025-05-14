@@ -73,6 +73,7 @@ function AdminNavigationBar({ user }) {
                         </Dropdown>
                         <Dropdown arrowIcon inline label="Administrador">
                             <DropdownItem href="/createAdmin">Registrar administrador</DropdownItem>
+                            <DropdownItem href="/deleteOldStudents">Eliminar Registros Viejos</DropdownItem>
                         </Dropdown>
                         <Dropdown
                             arrowIcon
