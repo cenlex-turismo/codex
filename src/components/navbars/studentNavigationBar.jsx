@@ -10,6 +10,7 @@ import {
     DarkThemeToggle,
 } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -33,6 +34,14 @@ function StudentNavigationBar({ user }) {
     const handleOpenSearchPage = (idNumber) => {
         navigate(`/showStudent?idNumber=${idNumber}`);
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("flowbite-theme-mode") === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, []);
 
     return (
         <div className="NavigationBar bg-white dark:bg-gray-800 shadow-md">

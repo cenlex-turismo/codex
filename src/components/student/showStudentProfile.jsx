@@ -48,12 +48,14 @@ function ShowStudent({ propIdNumber }) {
 
     const downloadTranscript = async () => {
         try {
-            const response = await axios.get("/student/generateTranscript", { responseType: "blob" });
-            const blob = new Blob([response.data]);
+            const response = await axios.get(`/student/generateTranscript/${studentData.idNumber}`, { responseType: "blob" });
+            const blob = new Blob([response.data], {
+                type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            });
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = "transcript.pdf";
+            link.download = "transcript.docx"; // Change the file extension to .docx
             document.body.appendChild(link);
             link.click();
             link.remove();
