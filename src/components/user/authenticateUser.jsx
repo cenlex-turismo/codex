@@ -4,8 +4,6 @@ import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Label, TextInput, Card } from "flowbite-react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
-import backgroundImage from "../../assets/logo192.png"; // Adjust the path depending where you store the image
-
 axios.defaults.baseURL = "https://api.celexest.com";
 axios.defaults.withCredentials = true;
 
@@ -39,7 +37,6 @@ function AuthenticateUser() {
     return (
         <div
             className="flex items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: `url(${backgroundImage})` }}
         >
             <Card className="w-full max-w-md p-8 bg-white bg-opacity-90 rounded-2xl shadow-lg">
                 <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-gray-200">Iniciar Sesión</h2>
