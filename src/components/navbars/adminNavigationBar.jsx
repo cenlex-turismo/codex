@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
+import logo from "../../assets/logot.png";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -65,7 +66,7 @@ function AdminNavigationBar({ user }) {
             >
                 <NavbarBrand href="/dashboard" className="flex items-center">
                     <img
-                        src="src/assets/logot.png"
+                        src={logo}
                         className="mr-3 h-6 sm:h-9"
                         alt="Codex Logo"
                     />

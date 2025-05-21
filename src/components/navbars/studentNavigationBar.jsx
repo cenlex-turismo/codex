@@ -17,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
+import logo from "../../assets/logot.png";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -65,7 +66,7 @@ function StudentNavigationBar({ user }) {
         <div className="NavigationBar bg-white dark:bg-gray-800 shadow-md">
             <Navbar fluid rounded className="px-4 py-2 md:px-6 md:py-4 dark:text-white">
                 <NavbarBrand href="/dashboard" className="flex items-center">
-                    <img src="src/assets/logot.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+                    <img src={logo} className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
                     <span className="self-center whitespace-nowrap text-xl font-bold tracking-wide text-gray-800 dark:text-white">Codex</span>
                 </NavbarBrand>
                 <NavbarToggle />
