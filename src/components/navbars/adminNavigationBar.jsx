@@ -65,8 +65,8 @@ function AdminNavigationBar({ user }) {
             >
                 <NavbarBrand href="/dashboard" className="flex items-center">
                     <img
-                        src="src/assets/logo.jpg"
-                        className="mr-3 h-6 sm:h-9 rounded-full"
+                        src="src/assets/logot.png"
+                        className="mr-3 h-6 sm:h-9"
                         alt="Codex Logo"
                     />
                     <span className="self-center whitespace-nowrap text-xl font-bold tracking-wide text-gray-800 dark:text-white">
