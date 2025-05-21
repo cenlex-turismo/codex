@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Button, Label, TextInput } from "flowbite-react";
+import { Card, Button, Label, TextInput, Modal, ModalHeader, ModalBody, ModalFooter } from "flowbite-react";
+import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -14,6 +15,13 @@ function UpdateUserBasicData() {
         email: "",
     });
 
+    const [confirmModal, setConfirmModal] = useState(false); // Confirmation modal state
+    const [resultModal, setResultModal] = useState({
+        show: false,
+        success: null, // null = not attempted, true = success, false = failure
+        message: "",
+    });
+
     const updateFormField = (e) => {
         const { name, value } = e.target;
         setCreateForm({
@@ -22,12 +30,12 @@ function UpdateUserBasicData() {
         });
     };
 
-    const upUser = async (e) => {
+    const showConfirmModal = (e) => {
         e.preventDefault();
-        if (!window.confirm("Actualizar datos de usuario?")) {
-            return;
-        }
+        setConfirmModal(true);
+    };
 
+    const upUser = async () => {
         try {
             await axios.put("/user/updateUser", createForm);
 
@@ -39,9 +47,19 @@ function UpdateUserBasicData() {
                 email: "",
             });
 
-            window.alert("Datos de usuario actualizados con éxito");
+            setResultModal({
+                show: true,
+                success: true,
+                message: "Datos de usuario actualizados con éxito",
+            });
         } catch (err) {
-            window.alert("Error al actualizar los datos del usuario");
+            setResultModal({
+                show: true,
+                success: false,
+                message: "Error al actualizar los datos del usuario",
+            });
+        } finally {
+            setConfirmModal(false); // Close confirmation modal
         }
     };
 
@@ -58,7 +76,11 @@ function UpdateUserBasicData() {
                     email: res.data.userData.email,
                 });
             } catch (err) {
-                window.alert("Error al obtener los datos del usuario");
+                setResultModal({
+                    show: true,
+                    success: false,
+                    message: "Error al obtener los datos del usuario",
+                });
             }
         }
 
@@ -73,9 +95,9 @@ function UpdateUserBasicData() {
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">
                     Necesitas tu contraseña actual para realizar cualquier cambio.
-                    Deja el campo de contraseña nueva en blanco si no deseas cambiarla
+                    Deja el campo de contraseña nueva en blanco si no deseas cambiarla.
                 </p>
-                <form onSubmit={upUser} className="space-y-4">
+                <form onSubmit={showConfirmModal} className="space-y-4">
                     <div>
                         <Label htmlFor="email" value="Email" />
                         <TextInput
@@ -138,6 +160,62 @@ function UpdateUserBasicData() {
                     </Button>
                 </form>
             </Card>
+
+            {/* Confirmation Modal */}
+            <Modal
+                show={confirmModal}
+                size="md"
+                onClose={() => setConfirmModal(false)}
+                popup
+            >
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center">
+                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            ¿Seguro de actualizar los datos del usuario?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            <Button onClick={upUser}>
+                                Sí, actualizar
+                            </Button>
+                            <Button color="gray" onClick={() => setConfirmModal(false)}>
+                                No, cancelar
+                            </Button>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
+
+            {/* Result Modal */}
+            <Modal
+                show={resultModal.show}
+                size="md"
+                popup
+                dismissible
+                onClose={() => setResultModal({ ...resultModal, show: false })}
+            >
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {resultModal.success ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {resultModal.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button
+                        onClick={() => setResultModal({ ...resultModal, show: false })}
+                    >
+                        Aceptar
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }

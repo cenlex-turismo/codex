@@ -9,9 +9,15 @@ import {
     NavbarLink,
     NavbarToggle,
     DarkThemeToggle,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
 } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 
 axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
@@ -20,15 +26,27 @@ function TeacherNavigationBar({ user }) {
 
     const navigate = useNavigate();
 
+    const [logoutModal, setLogoutModal] = useState({
+        show: false,
+        success: null, // null = not attempted, true = success, false = failure
+        message: "",
+    });
+
     const logout = async () => {
         try {
             const res = await axios.post("/user/logoutUser/");
-            console.log(res.data.message);
-            window.alert("Sesion cerrada");
-            navigate("/login");
+            setLogoutModal({
+                show: true,
+                success: true,
+                message: "Sesión cerrada con éxito",
+            });
         }
         catch (err) {
-            window.alert("Error al cerrar sesion");
+            setLogoutModal({
+                show: true,
+                success: false,
+                message: "Error al cerrar sesión",
+            });
         }
     };
 
@@ -78,11 +96,47 @@ function TeacherNavigationBar({ user }) {
                             label={user.firstName + " " + user.lastName}
                         >
                             <DropdownItem href="/updatedUserBasicData">Perfil</DropdownItem>
-                            <DropdownItem onClick={logout}>Cerrar Sesion</DropdownItem>
+                            <DropdownItem onClick={logout}>Cerrar Sesión</DropdownItem>
                         </Dropdown>
                     </div>
                 </NavbarCollapse>
             </Navbar>
+
+            {/* Logout Modal */}
+            <Modal
+                size="md"
+                popup
+                dismissible
+                show={logoutModal.show}
+                onClose={() => {
+                    setLogoutModal({ ...logoutModal, show: false })
+                    navigate("/login");
+                }}
+            >
+                <ModalHeader />
+                <ModalBody>
+                    <div className="text-center space-y-6">
+                        {logoutModal.success ? (
+                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
+                        ) : (
+                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />
+                        )}
+                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            {logoutModal.message}
+                        </p>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button
+                        onClick={() => {
+                            setLogoutModal({ ...logoutModal, show: false })
+                            navigate("/login");
+                        }}
+                    >
+                        Aceptar
+                    </Button>
+                </ModalFooter>
+            </Modal>
         </div>
     );
 }
