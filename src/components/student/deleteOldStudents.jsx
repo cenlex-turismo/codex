@@ -40,6 +40,9 @@ function DeleteOldStudents() {
         <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <Card className="w-full max-w-md">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Eliminar alumnos antiguos</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                    Por favor, ingresa el número de años de antigüedad que deben tener los registros para ser eliminados.
+                </p>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <Label htmlFor="years" value="Eliminar alumnos con más de (años):" />
@@ -52,7 +55,7 @@ function DeleteOldStudents() {
                             required
                         />
                     </div>
-                    <Button type="submit" color="failure" className="w-full">Eliminar Registros</Button>
+                    <Button type="submit" className="w-full">Eliminar Registros</Button>
                 </form>
             </Card>
 

@@ -47,7 +47,7 @@ function RegisterCourseGrade({ idNumber }) {
                 score: 0,
                 teacher: "0",
             });
-            
+
             setOpenModal(false);
             setOpenModalResult({ show: true, message: "Calificación registrada con éxito" });
         } catch (err) {
@@ -80,13 +80,16 @@ function RegisterCourseGrade({ idNumber }) {
         e.target.blur()
     }
 
-    const levels = ["Básico", "Intermedio", "Avanzado"];
+    const levels = ["Introductorio", "Básico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
     return (
         <div className="p-6 bg-gray-100 dark:bg-gray-900 rounded-xl shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Registrar Calificación</h2>
             <form onSubmit={showModal} className="space-y-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                    Si seleccionas un curso que el estudiante ya tenga, se sobreescribira la información anterior por la nueva
+                </p>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Curso</label>
                     <select
@@ -100,7 +103,7 @@ function RegisterCourseGrade({ idNumber }) {
                         </option>
                         {courses.map((course) => (
                             <option key={course._id} value={course._id}>
-                                {`${course.language} ${levels[course.level - 1]} ${modules[course.module - 1]}`}
+                                {`${course.language} ${levels[course.level]} ${modules[course.module - 1]}`}
                             </option>
                         ))}
                     </select>

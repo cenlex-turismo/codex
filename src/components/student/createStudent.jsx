@@ -37,7 +37,7 @@ function CreateStudent() {
 
     const registerStudent = async () => {
         try {
-            await axios.post("/createStudent", createForm);
+            const res = await axios.post("/createStudent", createForm);
 
             setCreateForm({
                 firstName: "",
@@ -50,9 +50,10 @@ function CreateStudent() {
 
             setOpenModalResult({
                 show: true,
-                message: "Alumno registrado con éxito",
+                message: "Alumno registrado con éxito con boleta " + res.data.idNumber,
             });
         } catch (err) {
+            console.log(err);
             setOpenModalResult({
                 show: true,
                 message: "Error al registrar al alumno",
@@ -191,7 +192,7 @@ function CreateStudent() {
                 <ModalHeader />
                 <ModalBody>
                     <div className="text-center space-y-6">
-                        {openModalResult.message === "Alumno registrado con éxito" ? (
+                        {openModalResult.message !== "Error al registrar al alumno" ? (
                             <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
                         ) : (
                             <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />

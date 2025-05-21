@@ -72,7 +72,8 @@ function UpdateUserBasicData() {
                     Actualizar Usuario
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">
-                    Necesitas tu contraseña actual para realizar cualquier cambio
+                    Necesitas tu contraseña actual para realizar cualquier cambio.
+                    Deja el campo de contraseña nueva en blanco si no deseas cambiarla
                 </p>
                 <form onSubmit={upUser} className="space-y-4">
                     <div>

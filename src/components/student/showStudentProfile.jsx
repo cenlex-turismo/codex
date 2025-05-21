@@ -70,10 +70,11 @@ function ShowStudent({ propIdNumber }) {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
+            timeZone: "UTC"
         });
     };
 
-    const levels = ["Básico", "Intermedio", "Avanzado"];
+    const levels = ["Introductorio", "Básico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
     return (
@@ -123,7 +124,7 @@ function ShowStudent({ propIdNumber }) {
                                 .map((grade, index) => (
                                     <tr key={index} className="odd:bg-gray-100 dark:odd:bg-gray-800 even:bg-white dark:even:bg-gray-700">
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{grade.course.language}</td>
-                                        <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{levels[grade.course.level - 1]}</td>
+                                        <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{levels[grade.course.level]}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{modules[grade.course.module - 1]}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{grade.score}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{formatDate(grade.courseStart)}</td>

@@ -82,7 +82,7 @@ function FilterStudents() {
         e.target.blur()
     }
 
-    const levels = ["Basico", "Intermedio", "Avanzado"];
+    const levels = ["Introductorio", "Básico", "Intermedio", "Avanzado"];
     const modules = ["I", "II", "III", "IV", "V", "VI"];
 
     return (
@@ -136,25 +136,7 @@ function FilterStudents() {
                             </option>
                             {courses.map((course) => (
                                 <option key={course._id} value={course._id}>
-                                    {`${course.language} ${levels[course.level - 1]} ${modules[course.module - 1]}`}
-                                </option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div>
-                        <Label htmlFor="teacher">Maestro:</Label>
-                        <Select
-                            id="teacher"
-                            name="teacher"
-                            value={searchForm.teacher}
-                            onChange={updateFormField}
-                        >
-                            <option value="" disabled>
-                                Selecciona un Maestro
-                            </option>
-                            {teachers.map((teacher) => (
-                                <option key={teacher._id} value={teacher._id}>
-                                    {`${teacher.firstName} ${teacher.lastName}`}
+                                    {`${course.language} ${levels[course.level]} ${modules[course.module - 1]}`}
                                 </option>
                             ))}
                         </Select>
@@ -238,6 +220,24 @@ function FilterStudents() {
                             <option value="equal">Igual</option>
                             <option value="greater">Mayor que</option>
                             <option value="less">Menor que</option>
+                        </Select>
+                    </div>
+                    <div>
+                        <Label htmlFor="teacher">Maestro:</Label>
+                        <Select
+                            id="teacher"
+                            name="teacher"
+                            value={searchForm.teacher}
+                            onChange={updateFormField}
+                        >
+                            <option value="" disabled>
+                                Selecciona un Maestro
+                            </option>
+                            {teachers.map((teacher) => (
+                                <option key={teacher._id} value={teacher._id}>
+                                    {`${teacher.firstName} ${teacher.lastName}`}
+                                </option>
+                            ))}
                         </Select>
                     </div>
                     <Button type="submit" className="mt-4 w-full md:col-span-2">

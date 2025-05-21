@@ -10,7 +10,7 @@ function CreateCourse() {
     const [createForm, setCreateForm] = useState({
         language: "",
         level: 0,
-        module: 0,
+        module: 1,
     });
 
     const [openModal, setOpenModal] = useState(false);
@@ -35,7 +35,7 @@ function CreateCourse() {
             setCreateForm({
                 language: "",
                 level: 0,
-                module: 0,
+                module: 1,
             });
 
             setOpenModalResult({
@@ -86,7 +86,11 @@ function CreateCourse() {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Nivel:</label>
+                        <label className="block text-gray-700 dark:text-gray-300 mb-2">Nivel:
+                            <Tooltip content="0 - Introductorio, 1 - Básico, 2 - Intermedio, 3 - Avanzado">
+                                <HiInformationCircle className="inline ml-2 h-5 w-5 text-blue-500 cursor-pointer" />
+                            </Tooltip>
+                        </label>
                         <input
                             value={createForm.level}
                             onChange={updateFormField}
@@ -95,6 +99,8 @@ function CreateCourse() {
                             required
                             onWheel={numberInputOnWheelPreventChange}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min={0}
+                            max={3}
                         />
                     </div>
                     <div className="mb-4">
@@ -107,6 +113,8 @@ function CreateCourse() {
                             required
                             onWheel={numberInputOnWheelPreventChange}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            min={1}
+                            max={6}
                         />
                     </div>
                     <div className="flex justify-end">
