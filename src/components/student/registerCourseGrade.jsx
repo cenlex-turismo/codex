@@ -13,6 +13,7 @@ function RegisterCourseGrade({ idNumber }) {
         const today = new Date().toISOString().split("T")[0]; // Current date in YYYY-MM-DD format
         return {
             course: "0",
+            courseType: "0",
             courseStart: today,
             courseEnd: today,
             score: 0,
@@ -42,6 +43,7 @@ function RegisterCourseGrade({ idNumber }) {
 
             setCourseForm({
                 course: "0",
+                courseType: "0",
                 courseStart: "2025-01-01",
                 courseEnd: "2025-01-01",
                 score: 0,
@@ -106,6 +108,25 @@ function RegisterCourseGrade({ idNumber }) {
                                 {`${course.language} ${levels[course.level]} ${modules[course.module - 1]}`}
                             </option>
                         ))}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tipo de curso</label>
+                    <select
+                        value={courseForm.courseType}
+                        onChange={updateFormField}
+                        name="courseType"
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    >
+                        <option value="0" disabled>
+                            Selecciona un tipo de curso
+                        </option>
+                        <option key="Semanal" value="Semanal">
+                            Semanal
+                        </option>
+                        <option key="Sabatino" value="Sabatino">
+                            Sabatino
+                        </option>
                     </select>
                 </div>
                 <div>

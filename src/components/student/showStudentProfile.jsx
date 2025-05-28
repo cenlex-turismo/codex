@@ -109,6 +109,7 @@ function ShowStudent({ propIdNumber }) {
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Idioma</th>
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Nivel</th>
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Módulo</th>
+                                <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Modalidad</th>
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Calificación</th>
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Inicio</th>
                                 <th className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">Término</th>
@@ -126,6 +127,7 @@ function ShowStudent({ propIdNumber }) {
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{grade.course.language}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{levels[grade.course.level]}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{modules[grade.course.module - 1]}</td>
+                                        <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{grade.courseType}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{grade.score}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{formatDate(grade.courseStart)}</td>
                                         <td className="border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white px-4 py-2">{formatDate(grade.courseEnd)}</td>
