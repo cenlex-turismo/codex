@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Button } from "flowbite-react";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com";
+axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 
 function ShowStudent({ propIdNumber }) {

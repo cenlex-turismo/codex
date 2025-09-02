@@ -19,8 +19,9 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
 import logo from "../../assets/logot.png";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
+axios.defaults.baseURL = API_URL; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function AdminNavigationBar({ user }) {

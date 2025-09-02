@@ -2,8 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Tooltip } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX, HiInformationCircle } from "react-icons/hi";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
+axios.defaults.baseURL = API_URL; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function CreateCourse() {

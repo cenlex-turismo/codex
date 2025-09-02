@@ -3,8 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Label, TextInput, Card } from "flowbite-react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com";
+axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
 
 function AuthenticateUser() {

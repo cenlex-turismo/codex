@@ -4,8 +4,9 @@ import RegisterCourseGrade from "./registerCourseGrade";
 import { Link } from "react-router-dom";
 import ShowStudent from "./showStudentProfile";
 import { Card, Label, TextInput } from "flowbite-react";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
+axios.defaults.baseURL = API_URL; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function SearchStudent() {

@@ -13,8 +13,9 @@ import {
     Card,
 } from "flowbite-react";
 import { HiCheckCircle, HiOutlineX } from "react-icons/hi";
+import { API_URL } from "../../utils/constant";
 
-axios.defaults.baseURL = "https://api.celexest.com"; // Backend URL
+axios.defaults.baseURL = API_URL; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function FilterStudents() {
