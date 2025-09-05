@@ -15,6 +15,7 @@ import RedirectBasedOnAuth from "./components/redirectBasedOnAuth";
 import UpdateUserBasicData from "./components/user/updateUserBasicData";
 import DeleteOldStudents from "./components/student/deleteOldStudents";
 import UpdatePassword from "./components/user/updatePassword"
+import CoursesManage from "./components/courses/coursesManage"
 
 function Router() {
     return (
@@ -41,6 +42,7 @@ function Router() {
                                     {/* Teachers Routes */}
                                     <Route path="createTeacher" element={<CreateTeacher />} />
                                     {/* Courses Routes */}
+                                    <Route path="courses" element={<CoursesManage />} />
                                     <Route path="createCourse" element={<CreateCourse />} />
                                     {/* Users Routes */}
                                     <Route path="createAdmin" element={<CreateUser />} />

@@ -92,9 +92,12 @@ function AdminNavigationBar({ user }) {
                         <Dropdown arrowIcon inline label="Profesores">
                             <DropdownItem href="/createTeacher">Registrar profesor</DropdownItem>
                         </Dropdown>
-                        <Dropdown arrowIcon inline label="Cursos">
-                            <DropdownItem href="/createCourse">Crear Curso</DropdownItem>
-                        </Dropdown>
+                        <NavbarLink
+                            href="/courses"
+                            className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                        >
+                            Cursos
+                        </NavbarLink>
                         <Dropdown arrowIcon inline label="Administrador">
                             <DropdownItem href="/createAdmin">Registrar administrador</DropdownItem>
                             <DropdownItem href="/deleteOldStudents">Eliminar Registros Viejos</DropdownItem>
