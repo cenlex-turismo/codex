@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { Card, Button, Label, TextInput, Modal, ModalHeader, ModalBody, ModalFooter } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
@@ -10,7 +11,6 @@ axios.defaults.withCredentials = true; // Send cookies with requests
 function UpdateUserBasicData() {
     const [createForm, setCreateForm] = useState({
         currentPassword: "",
-        password: "",
         firstName: "",
         lastName: "",
         email: "",
@@ -41,11 +41,8 @@ function UpdateUserBasicData() {
             await axios.put("/user/updateUser", createForm);
 
             setCreateForm({
+                ...createForm,
                 currentPassword: "",
-                password: "",
-                firstName: "",
-                lastName: "",
-                email: "",
             });
 
             setResultModal({
@@ -71,7 +68,6 @@ function UpdateUserBasicData() {
 
                 setCreateForm({
                     currentPassword: "",
-                    password: "",
                     firstName: res.data.userData.firstName,
                     lastName: res.data.userData.lastName,
                     email: res.data.userData.email,
@@ -96,7 +92,6 @@ function UpdateUserBasicData() {
                 </h2>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center">
                     Necesitas tu contraseña actual para realizar cualquier cambio.
-                    Deja el campo de contraseña nueva en blanco si no deseas cambiarla.
                 </p>
                 <form onSubmit={showConfirmModal} className="space-y-4">
                     <div>
@@ -121,17 +116,6 @@ function UpdateUserBasicData() {
                             onChange={updateFormField}
                             placeholder="Ingrese su contraseña actual"
                             required
-                        />
-                    </div>
-                    <div>
-                        <Label htmlFor="password" value="Nueva Contraseña" />
-                        <TextInput
-                            id="password"
-                            name="password"
-                            type="password"
-                            value={createForm.password}
-                            onChange={updateFormField}
-                            placeholder="Ingrese su nueva contraseña (opcional)"
                         />
                     </div>
                     <div>
@@ -160,6 +144,11 @@ function UpdateUserBasicData() {
                         Actualizar
                     </Button>
                 </form>
+                <div className="w-full mt-4 text-center">
+                    <Link to="/updatePassword" className="text-blue-600 dark:text-blue-400 underline">
+                        Reestablecer contraseña
+                    </Link>
+                </div>
             </Card>
 
             {/* Confirmation Modal */}

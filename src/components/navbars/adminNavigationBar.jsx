@@ -36,11 +36,8 @@ function AdminNavigationBar({ user }) {
     const logout = async () => {
         try {
             const res = await axios.post("/user/logoutUser/");
-            setLogoutModal({
-                show: true,
-                success: true,
-                message: "Sesión cerrada con éxito",
-            });
+            setLogoutModal({ ...logoutModal, show: false })
+            navigate("/login");
         } catch (err) {
             setLogoutModal({
                 show: true,
