@@ -89,9 +89,12 @@ function AdminNavigationBar({ user }) {
                             <DropdownDivider />
                             <DropdownItem href="/filterStudents">Buscar alumno</DropdownItem>
                         </Dropdown>
-                        <Dropdown arrowIcon inline label="Profesores">
-                            <DropdownItem href="/createTeacher">Registrar profesor</DropdownItem>
-                        </Dropdown>
+                        <NavbarLink
+                            href="/teachers"
+                            className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                        >
+                            Profesores
+                        </NavbarLink>
                         <NavbarLink
                             href="/courses"
                             className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"

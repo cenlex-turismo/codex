@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Card, TextInput, Label } from "flowbite-react";
 import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
@@ -8,19 +9,21 @@ axios.defaults.baseURL = API_URL; // Backend URL
 axios.defaults.withCredentials = true; // Send cookies with requests
 
 function CreateTeacher() {
+    const { id } = useParams();
+    
     const [createForm, setCreateForm] = useState({
         firstName: "",
         lastName: "",
         email: "",
         password: "",
     });
-
+    
     const [openModal, setOpenModal] = useState(false);
     const [openModalResult, setOpenModalResult] = useState({
         show: false,
         message: "",
     });
-
+    
     const updateFormField = (e) => {
         const { name, value } = e.target;
         setCreateForm({
@@ -28,16 +31,16 @@ function CreateTeacher() {
             [name]: value,
         });
     };
-
+    
     const showModal = (e) => {
         e.preventDefault();
         setOpenModal(true);
     };
-
+    
     const registerTeacher = async () => {
         try {
             await axios.post("/teacher/createTeacher", createForm);
-
+            
             setCreateForm({
                 firstName: "",
                 lastName: "",
@@ -58,12 +61,32 @@ function CreateTeacher() {
             setOpenModal(false);
         }
     };
+    
+    useEffect(()=> {
+        //To get teacher data (if that the case)
+        const getData = async () => {
+            if(id){
+                try{
+                    const response = await axios.get(`/teacher/getTeacherById/${id}`);
+                    setCreateForm({...response.data.teacher, password: ""});
+                }catch (err){
+                    setOpenModalResult({
+                        show: true,
+                        message: "Error al obtener la información del profesor"
+                    })
+                }
+            }
+            console.log(createForm);
+        }
+
+        getData()
+    }, [])
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <Card className="max-w-lg w-full">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center mb-6">
-                    Registrar Maestro
+                    {id ? "Modificar Maestro" : "Registrar Maestro"} 
                 </h2>
                 <form onSubmit={showModal} className="space-y-4">
                     <div>
@@ -98,6 +121,7 @@ function CreateTeacher() {
                             onChange={updateFormField}
                             placeholder="Ingrese el correo electrónico"
                             required
+                            readOnly = {id ? true : false}
                         />
                     </div>
                     <div>
@@ -113,7 +137,7 @@ function CreateTeacher() {
                         />
                     </div>
                     <Button type="submit" className="w-full">
-                        Registrar
+                        {id ? "Modificar" : "Registrar"}
                     </Button>
                 </form>
             </Card>
@@ -125,7 +149,7 @@ function CreateTeacher() {
                     <div className="text-center">
                         <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
                         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            ¿Seguro de registrar al Maestro?
+                            ¿Seguro de  {id ? "modificar datos del" : "registrar al"} Maestro?
                         </h3>
                         <div className="flex justify-center gap-4">
                             <Button color="failure" onClick={registerTeacher}>

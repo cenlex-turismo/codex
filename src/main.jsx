@@ -16,6 +16,7 @@ import UpdateUserBasicData from "./components/user/updateUserBasicData";
 import DeleteOldStudents from "./components/student/deleteOldStudents";
 import UpdatePassword from "./components/user/updatePassword"
 import CoursesManage from "./components/courses/coursesManage"
+import TeacherManage from "./components/teacher/teacherManage"
 
 function Router() {
     return (
@@ -40,7 +41,9 @@ function Router() {
                                     <Route path="searchStudent" element={<SearchStudent />} />
                                     <Route path="createStudent" element={<CreateStudent />} />
                                     {/* Teachers Routes */}
+                                    <Route path="teachers" element={<TeacherManage />}/>
                                     <Route path="createTeacher" element={<CreateTeacher />} />
+                                    <Route path="modifyTeacher/:id" element={<CreateTeacher />} />
                                     {/* Courses Routes */}
                                     <Route path="courses" element={<CoursesManage />} />
                                     <Route path="createCourse" element={<CreateCourse />} />
