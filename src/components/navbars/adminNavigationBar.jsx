@@ -82,13 +82,19 @@ function AdminNavigationBar({ user }) {
                         >
                             Inicio
                         </NavbarLink>
-                        <Dropdown arrowIcon inline label="Alumnos">
+                        <NavbarLink
+                            href="/students"
+                            className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"
+                        >
+                            Alumnos
+                        </NavbarLink>
+                        {/* <Dropdown arrowIcon inline label="Alumnos">
                             <DropdownItem href="/createStudent">Registrar alumno</DropdownItem>
                             <DropdownDivider />
                             <DropdownItem href="/searchStudent">Registrar Calificación</DropdownItem>
                             <DropdownDivider />
                             <DropdownItem href="/filterStudents">Buscar alumno</DropdownItem>
-                        </Dropdown>
+                        </Dropdown> */}
                         <NavbarLink
                             href="/teachers"
                             className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400"

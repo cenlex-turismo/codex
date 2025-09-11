@@ -75,7 +75,11 @@ function CreateStudent() {
 
     return (
         <div>
-            <DefaultNavigationBar />
+            {location.pathname == "/createStudent" ? (
+                <div></div>
+            ) : (
+                <DefaultNavigationBar />
+            )}
             <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
                 <Card className="w-full max-w-lg p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
                     <h2 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Registrar Alumno</h2>

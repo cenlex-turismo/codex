@@ -14,9 +14,10 @@ import ProtectedRoute from "./components/protectedRoute";
 import RedirectBasedOnAuth from "./components/redirectBasedOnAuth";
 import UpdateUserBasicData from "./components/user/updateUserBasicData";
 import DeleteOldStudents from "./components/student/deleteOldStudents";
-import UpdatePassword from "./components/user/updatePassword"
-import CoursesManage from "./components/courses/coursesManage"
-import TeacherManage from "./components/teacher/teacherManage"
+import UpdatePassword from "./components/user/updatePassword";
+import CoursesManage from "./components/courses/coursesManage";
+import TeacherManage from "./components/teacher/teacherManage";
+import StudentManage from "./components/student/studentsManage";
 
 function Router() {
     return (
@@ -36,6 +37,7 @@ function Router() {
                                 <Routes>
                                     <Route path="dashboard" element={<App />} />
                                     {/* Students Routes */}
+                                    <Route path="students" element={<StudentManage />} />
                                     <Route path="filterStudents" element={<FilterStudents />} />
                                     <Route path="showStudent" element={<ShowStudent />} />
                                     <Route path="searchStudent" element={<SearchStudent />} />
