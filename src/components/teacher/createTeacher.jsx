@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Card, TextInput, Label } from "flowbite-react";
-import { HiOutlineExclamationCircle, HiCheckCircle, HiOutlineX } from "react-icons/hi";
+import { HiOutlineExclamationCircle, HiCheckCircle, HiXCircle, HiOutlineX } from "react-icons/hi";
 import { API_URL } from "../../utils/constant";
 
 axios.defaults.baseURL = API_URL; // Backend URL
@@ -18,11 +18,7 @@ function CreateTeacher() {
         password: "",
     });
     
-    const [openModal, setOpenModal] = useState(false);
-    const [openModalResult, setOpenModalResult] = useState({
-        show: false,
-        message: "",
-    });
+    const [openModal, setOpenModal] = useState({show: false, type: "confirm", message: ""});
     
     const updateFormField = (e) => {
         const { name, value } = e.target;
@@ -34,7 +30,7 @@ function CreateTeacher() {
     
     const showModal = (e) => {
         e.preventDefault();
-        setOpenModal(true);
+        setOpenModal({...openModal, show: true});
     };
     
     const registerTeacher = async () => {
@@ -48,19 +44,37 @@ function CreateTeacher() {
                 password: "",
             });
 
-            setOpenModalResult({
+            setOpenModal({
+                type: 'success',
                 show: true,
                 message: "Maestro registrado con éxito",
             });
         } catch (err) {
-            setOpenModalResult({
+            setOpenModal({
+                type: 'error',
                 show: true,
                 message: "Error al registrar al maestro",
             });
-        } finally {
-            setOpenModal(false);
         }
     };
+
+    const modifyTeacher = async () => {
+        try {
+            await axios.put(`/teacher/updateTeacher/${id}`, createForm);
+
+            setOpenModal({
+                type: 'success',
+                show: true,
+                message: "Maestro modificado con éxito",
+            })
+        } catch (error) {
+            setOpenModal({
+                type: 'error',
+                show: true,
+                message: "Error al modificar al maestro",
+            })
+        }
+    }
     
     useEffect(()=> {
         //To get teacher data (if that the case)
@@ -70,17 +84,17 @@ function CreateTeacher() {
                     const response = await axios.get(`/teacher/getTeacherById/${id}`);
                     setCreateForm({...response.data.teacher, password: ""});
                 }catch (err){
-                    setOpenModalResult({
+                    setOpenModal({
+                        type: "error",
                         show: true,
                         message: "Error al obtener la información del profesor"
                     })
                 }
             }
-            console.log(createForm);
         }
 
         getData()
-    }, [])
+    }, []);
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
@@ -133,7 +147,7 @@ function CreateTeacher() {
                             value={createForm.password}
                             onChange={updateFormField}
                             placeholder="Cree una contraseña"
-                            required
+                            required = {id ? false : true}
                         />
                     </div>
                     <Button type="submit" className="w-full">
@@ -143,64 +157,50 @@ function CreateTeacher() {
             </Card>
 
             {/* Confirmation Modal */}
-            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+            <Modal show={openModal.show} size="md" onClose={() => setOpenModal({type: "confirm", message: "", show: false})} popup>
                 <ModalHeader />
                 <ModalBody>
-                    <div className="text-center">
-                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                            ¿Seguro de  {id ? "modificar datos del" : "registrar al"} Maestro?
-                        </h3>
-                        <div className="flex justify-center gap-4">
-                            <Button color="failure" onClick={registerTeacher}>
-                                Sí, registrar
-                            </Button>
-                            <Button color="gray" onClick={() => setOpenModal(false)}>
-                                No, cancelar
-                            </Button>
+                    {openModal.type === 'confirm' && (
+                        <div className="text-center">
+                            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                ¿Seguro de  {id ? "modificar datos del" : "registrar al"} Maestro?
+                            </h3>
+                            <div className="flex justify-center gap-4">
+                                <Button color="failure" onClick={() => id ? modifyTeacher() : registerTeacher()}>
+                                    Sí, {id ? "modificar" : "registrar"}
+                                </Button>
+                                <Button color="gray" onClick={() => setOpenModal({...openModal, show: false})}>
+                                    No, cancelar
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                </ModalBody>
-            </Modal>
+                    )}
 
-            {/* Result Modal */}
-            <Modal
-                size="md"
-                popup
-                dismissible
-                show={openModalResult.show}
-                onClose={() =>
-                    setOpenModalResult({
-                        ...openModalResult,
-                        show: false,
-                    })
-                }
-            >
-                <ModalHeader />
-                <ModalBody>
-                    <div className="text-center space-y-6">
-                        {openModalResult.message === "Maestro registrado con éxito" ? (
-                            <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
-                        ) : (
-                            <HiOutlineX className="mx-auto mb-4 h-14 w-14 text-red-500" />
-                        )}
-                        <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                            {openModalResult.message}
-                        </p>
+                    {openModal.type === 'success' && (
+                    <div className="text-center">
+                        <HiCheckCircle className="mx-auto mb-4 h-14 w-14 text-green-500" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            {openModal.message}
+                        </h3>
+                        <Button color="alternative" onClick={() => setOpenModal({ type: "confirm", message: "", show: false })}>
+                        Cerrar
+                        </Button>
                     </div>
+                    )}
+
+                    {openModal.type === 'error' && (
+                    <div className="text-center">
+                        <HiXCircle className="mx-auto mb-4 h-14 w-14 text-red-500" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            {openModal.message}
+                        </h3>
+                        <Button color="alternative" onClick={() => setOpenModal({ type: "confirm", message: "", show: false })}>
+                        Cerrar
+                        </Button>
+                    </div> 
+                    )}
                 </ModalBody>
-                <ModalFooter>
-                    <Button
-                        onClick={() =>
-                            setOpenModalResult({
-                                ...openModalResult,
-                                show: false,
-                            })
-                        }
-                    >
-                        Aceptar
-                    </Button>
-                </ModalFooter>
             </Modal>
         </div>
     );
