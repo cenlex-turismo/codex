@@ -33,6 +33,7 @@ function StudentManage(){
             try{
                 const response = await axios.get("/student/getAllStudent");
                 setStudent(response.data.students);
+                console.log(students);
             }catch (err){
                 setOpenModal({show: true, type: 'error', message: 'Ocurrió un error al obtener los datos de los estudiantes.'})
             }
@@ -63,7 +64,7 @@ function StudentManage(){
                             <TableRow>
                                 <TableHeadCell>Correo electrónico</TableHeadCell>
                                 <TableHeadCell>Nombre</TableHeadCell>
-                                <TableHeadCell>Ver historial</TableHeadCell>
+                                {/* <TableHeadCell>Ver historial</TableHeadCell> */}
                                 <TableHeadCell>Modificar</TableHeadCell>
                                 <TableHeadCell>Eliminar</TableHeadCell>
                             </TableRow>
@@ -73,22 +74,22 @@ function StudentManage(){
                                 <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                     <TableCell>{student.email}</TableCell>
                                     <TableCell>{student.firstName} {student.lastName}</TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Button className="gap-2" color="light" 
-                                        /* onClick={()=> {
+                                        onClick={()=> {
                                             navigate(`/teacherDetail/${profesor._id}`)
                                             setSelectedProfesor(profesor)
                                             setOpenModal({...openModal, show: true})
-                                        }} */
+                                        }} 
                                         >
                                             Ver historial
                                             <HiEye />
                                         </Button>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>
                                         <Button className="gap-2"
                                         onClick={()=> {
-                                            navigate(`/modifyStudent/${student._id}`)
+                                            navigate(`/modifyStudent/${student.studentDetails.idNumber}`)
                                         }} 
                                         >
                                             Modificar

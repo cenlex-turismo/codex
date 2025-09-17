@@ -42,6 +42,7 @@ function Router() {
                                     <Route path="showStudent" element={<ShowStudent />} />
                                     <Route path="searchStudent" element={<SearchStudent />} />
                                     <Route path="createStudent" element={<CreateStudent />} />
+                                    <Route path="modifyStudent/:id" element={<CreateStudent />}/>
                                     {/* Teachers Routes */}
                                     <Route path="teachers" element={<TeacherManage />}/>
                                     <Route path="createTeacher" element={<CreateTeacher />} />

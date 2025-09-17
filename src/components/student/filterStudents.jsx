@@ -61,14 +61,14 @@ function FilterStudents() {
     };
 
     useEffect(() => {
-        fetch("https://api.celexest.com/course/getAllCourses", { credentials: "include" })
+        fetch("http://localhost:5000/course/getAllCourses", { credentials: "include" })
             .then((response) => response.json())
             .then((data) => setCourses(data.courses))
             .catch((error) => console.error("Error al obtener los cursos:", error));
     }, []);
 
     useEffect(() => {
-        fetch("https://api.celexest.com/teacher/getAllTeachers", { credentials: "include" })
+        fetch("http://localhost:5000/teacher/getAllTeachers", { credentials: "include" })
             .then((response) => response.json())
             .then((data) => setTeachers(data.teachers))
             .catch((error) => console.error("Error al obtener a los maestros:", error));

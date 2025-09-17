@@ -60,7 +60,7 @@ function TeacherManage(){
                             <TableRow>
                                 <TableHeadCell>Correo electrónico</TableHeadCell>
                                 <TableHeadCell>Nombres</TableHeadCell>
-                                <TableHeadCell>Ver historial</TableHeadCell>
+                                {/* <TableHeadCell>Ver historial</TableHeadCell> */}
                                 <TableHeadCell>Modificar</TableHeadCell>
                                 <TableHeadCell>Eliminar</TableHeadCell>
                             </TableRow>
@@ -70,18 +70,18 @@ function TeacherManage(){
                                 <TableRow key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                     <TableCell>{profesor.email}</TableCell>
                                     <TableCell>{profesor.firstName} {profesor.lastName}</TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Button className="gap-2" color="light" 
-                                        /* onClick={()=> {
+                                         onClick={()=> {
                                             navigate(`/teacherDetail/${profesor._id}`)
                                             setSelectedProfesor(profesor)
                                             setOpenModal({...openModal, show: true})
-                                        }} */
+                                        }} 
                                         >
                                             Ver historial
                                             <HiEye />
                                         </Button>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>
                                         <Button className="gap-2"
                                         onClick={()=> {

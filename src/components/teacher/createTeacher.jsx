@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, ModalBody, ModalHeader, ModalFooter, Card, TextInput, Label } from "flowbite-react";
-import { HiOutlineExclamationCircle, HiCheckCircle, HiXCircle, HiOutlineX } from "react-icons/hi";
+import { HiOutlineExclamationCircle, HiCheckCircle, HiXCircle } from "react-icons/hi";
 import { API_URL } from "../../utils/constant";
 
 axios.defaults.baseURL = API_URL; // Backend URL
@@ -100,8 +100,9 @@ function CreateTeacher() {
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
             <Card className="max-w-lg w-full">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-white text-center mb-6">
-                    {id ? "Modificar Maestro" : "Registrar Maestro"} 
+                    {id ? "Modificar Maestro" : "Registrar Maestro"}
                 </h2>
+                    {/* Poner una nota donde se informa que en la modificación es opcional llenar la contraseña */} 
                 <form onSubmit={showModal} className="space-y-4">
                     <div>
                         <Label htmlFor="firstName" value="Nombre(s)" />
@@ -135,7 +136,7 @@ function CreateTeacher() {
                             onChange={updateFormField}
                             placeholder="Ingrese el correo electrónico"
                             required
-                            readOnly = {id ? true : false}
+                            disabled = {id ? true : false}
                         />
                     </div>
                     <div>
